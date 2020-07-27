@@ -54,6 +54,7 @@ export default function actionPromiseSearch(data) {
             }
             photo{
             photoLink
+            isMain
              }
             currency{
               id

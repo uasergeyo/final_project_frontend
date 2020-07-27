@@ -12,8 +12,6 @@ export default function actionPromiseRemovePhoto({token,id}) {
     }
   }
     `, { id })
-
-
  
   return actionPromise('removePhoto', promise)
 }

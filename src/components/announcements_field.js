@@ -8,20 +8,31 @@ class AnnouncementsField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      count:0,
-      buttons: []
+      count: 0,
+      buttons: [],
+      favourite: '',
     }
   }
 
   componentDidMount = () => {
+
+    if (this.props.userId) {
+      this.props.onSearchLikes({ id: this.props.userId, token: this.props.token })
+        .then(() => {
+            this.setState({ favourite: this.props.favourite.map(a => a.announcement ? a.announcement.id : null) })
+        })
+    }else{
+      this.setState({ favourite: []})
+    }
     this.props.onSearch({ limit: 16, offset: 0 })
     .then(() =>this.setState({count:this.props.count},()=>this.createPaginationItems()))
   }
 
-  componentDidUpdate(prevState){
-    if(prevState.count !== this.props.count){
-      this.setState({count:this.props.count},()=>this.createPaginationItems())
+  componentDidUpdate(prevState) {
+    if (prevState.count !== this.props.count) {
+      this.setState({ count: this.props.count }, () => this.createPaginationItems())
     }
+    
   }
 
 
@@ -30,17 +41,15 @@ class AnnouncementsField extends React.Component {
     for (let i = 1; i <= Math.ceil(this.state.count / 16); i++) {
       arr.push(i)
     }
-    this.setState({buttons: arr})
+    this.setState({ buttons: arr })
   }
 
   paginationButtonHandler(e) {
-    this.props.onSearch({...this.props.requestData, limit: 16, offset: +e.target.name * 16 - 16 })
+    this.props.onSearch({ ...this.props.requestData, limit: 16, offset: +e.target.name * 16 - 16 })
   }
 
   render() {
-    if (!this.props.announcements) {
-      return <Loader />
-    } else {
+    if (this.props.announcements && this.state.favourite) {
       return (
         <div className="bg-light mb-5 pt-5 pb-5">
           <div className="container mb-5 mx-auto">
@@ -49,7 +58,9 @@ class AnnouncementsField extends React.Component {
                 let identifier = a.id;
                 return <ANNOUNCEMENT_CARD_W history={this.props.history}
                   key={a.id} announcement={a}
-                  identifier={identifier} />
+                  identifier={identifier}
+                  // userLikes={this.state.favourite.map(a => a.announcement ? a.announcement.id : null)} />
+                  userLikes={this.state.favourite} />
               }) : null}
               {/* {this.props.announcements.payload.data.searchAnnouncements.map(a => <AnnouncementCard key={a.id} announcement={a} />)} */}
             </div>
@@ -63,6 +74,8 @@ class AnnouncementsField extends React.Component {
           </Pagination>
         </div>
       )
+    } else {
+      return <Loader />
     }
   }
 }

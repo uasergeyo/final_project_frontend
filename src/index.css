@@ -173,3 +173,12 @@ a{
   font-weight: 600;
 }
 
+.inputWarning{
+  color:red;
+  font-size: 12px;
+}
+
+.inputSucess{
+  color:green;
+  font-size: 12px;
+}

@@ -12,11 +12,13 @@ export default function actionPromiseFindOneAnnouncement({ id }) {
             user{
                 id
                 userName
+                userEmail
                 phones{
                     phone
             }
             photos{
                 photoLink
+                isMain
             }
             }
             area{

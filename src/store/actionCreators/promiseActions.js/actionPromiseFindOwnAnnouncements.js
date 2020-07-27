@@ -13,6 +13,7 @@ export default function actionPromiseFindOwnAnnouncements({token,id}) {
                   createdAt
                   announcementText
                   announcementHeader
+                  announcementPrice
                   user{
                     id
                     userName
@@ -27,6 +28,7 @@ export default function actionPromiseFindOwnAnnouncements({token,id}) {
                   }
                   photo{
                   photoLink
+                  isMain
                    }
                   currency{
                     id

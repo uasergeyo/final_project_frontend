@@ -5,6 +5,7 @@ const initialState = {
 	// redirectedFrom:null,
 	// announcements:null,
 	// "login", "redirectedFromLink", "promiseReducer".
+	
 };
 
 export default initialState;

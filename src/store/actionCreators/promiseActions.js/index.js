@@ -22,6 +22,8 @@ import actionPromiseFindAnnouncementPhotos from './actionPromiseFindAnnouncement
 import actionPromiseRemovePhoto from './actionPromiseRemovePhoto'
 import actionPromiseCreatePhotoForAnnouncement from './actionPromiseCreatePhotoForAnnouncement'
 import actionPromiseCreateUserPhoto from './actionPromiseCreateUserPhoto'
+import actionPromiseFindLikes from './actionPromiseFindLikes'
+import actionPromiseSetPhotoAsMain from './actionPromiseSetPhotoAsMain'
 
 export {
     actionLoginPromise,
@@ -48,6 +50,8 @@ export {
     actionPromiseRemovePhoto,
     actionPromiseCreatePhotoForAnnouncement,
     actionPromiseCreateUserPhoto,
+    actionPromiseFindLikes,
+    actionPromiseSetPhotoAsMain,
     
 
 }

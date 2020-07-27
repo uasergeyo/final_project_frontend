@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from './loader'
-import AlertMessage from './alert_message'
+// import AlertMessage from './alert_message'
 import PHOTO_GALLERY_W from './wrappers/photo_gallery_w'
 
 class EditAnnouncement extends React.Component {
@@ -20,9 +20,10 @@ class EditAnnouncement extends React.Component {
             currencyId: '',
             hasDelivery: false,
             photo: '',
-            isVisible: false,
+            // isVisible: false,
             categoryName: '',
             subCategoryName: '',
+            // isOk:false,
             // responseOnEdit:false,
         }
     }
@@ -53,7 +54,11 @@ class EditAnnouncement extends React.Component {
         }else if(prevProps.newPhoto !== this.props.newPhoto){          
             this.props.onFindAnnouncementPhotos({ id: this.props.announcement.id })
             .then(()=>this.setState({ photo:this.props.updatedPhoto}))
-        }
+        }else if(prevProps.setMainPhoto !== this.props.setMainPhoto && this.props.setMainPhoto){console.log("prevProps.setMainPhoto !== this.props.setMainPhoto",prevProps.setMainPhoto,this.props.setMainPhoto)
+        this.setState({photo:this.props.setMainPhoto})
+    }else if(prevProps.responseOnEdit !== this.props.responseOnEdit && this.props.responseOnEdit ){
+        this.props.history.push(`/announcement-action-result/${this.props.responseOnEdit}`)
+    }
         
     }
 
@@ -137,10 +142,15 @@ class EditAnnouncement extends React.Component {
         }
 
         this.props.onEditAnnouncement(obj)
-        // .then(res => this.setState({
-        //     isVisible: this.props.report,
-        //     photo: []
-        // }))
+    //     .then(()=>{ this.setState({
+    //         isOk: this.props.report,
+    //         photo: []
+    //     });
+    //     // this.state.isOk?this.props.history.push(`/announcement-action-result/${123}`):null
+    //     console.log(this.props.report)
+        
+    // })
+
     }
 
     changeVisibilityHandler = () => {
@@ -216,9 +226,9 @@ class EditAnnouncement extends React.Component {
                         </div>
                     </div>
                     <div>
-                        {
+                        {/* {
                             this.props.responseOnEdit ? <AlertMessage click={this.changeVisibilityHandler} text={"Объявление " + this.props.responseOnEdit + " успешно изменено"} /> : null
-                        }
+                        } */}
                     </div>
                     <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Отправить объявление</button>
                 </div>

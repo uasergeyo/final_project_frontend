@@ -17,18 +17,16 @@ class Profile extends React.Component {
     }
 
     componentDidMount(){
+        console.log("this.props.avatar",this.props.avatar)
         this.props.onGetUserInfo({id:this.props.userId,token: this.props.token})
-        // .then(()=>this.setState({
-        //     avatar:this.props.avatar,
-        // }))
+        .then(()=>this.props.avatar?this.props.avatar.forEach(a=>a.isMain ? this.setState({avatar:a.photoLink}):null):null)
     }
 
-    // componentDidUpdate(prevState){
-    //     if(prevState.avatar !== this.props.avatar){
-    //         this.props.onGetUserInfo({id:this.props.userId,token: this.props.token})  
-    //     }
-    //     // this.setState({avatar:this.props.avatar[0].photoLink})
-    // }
+    componentDidUpdate(prevProps){
+        if(prevProps.resAvaPhoto !== this.props.resAvaPhoto && this.props.resAvaPhoto){
+            this.props.resAvaPhoto.map(a=>a.isMain ? this.setState({avatar:a.photoLink}):null) 
+        }
+    }
 
     logOutHandler = () => {
         this.props.onLogOut()
@@ -41,14 +39,14 @@ class Profile extends React.Component {
     render() {
         // console.log(this.props.user)
         if(this.props.user){
-            // console.log(this.props.avatar)
             return (
-                <div className="container mt-5 mb-5">
+                <div className="container pt-5 mb-5">
                     <div className="d-flex justify-content-around">
                     <h2 className="text-center mb-5">{this.state.title}</h2>
                     <h2 className="text-center mb-5">{this.props.user.userName}</h2>
-                    {/* {this.state.avatar?<img className="w-25 h-25" src={this.state.avatar} alt={this.state.avatar}/>:null} */}
-                    {this.props.avatar.length>0?<img className="w-25 h-25 rounded-circle" src={this.props.avatar[0].photoLink} alt={this.props.avatar[0].photoLink}/>:null}
+                   {/* <div className="w-25 d-flex align-items-center"> */}
+                   {this.state.avatar ? <img className="w-25  rounded-circle cardImg img-fluid" src={this.state.avatar} alt={this.state.avatar}/>:null}
+                    {/* </div> */}
                     </div>
                     <div className="row d-flex ">
                         <NavLink className="mr-5" key="1" onClick={this.onClickPointHandler.bind(this)} to="/profile/my_announcements">Мои бъявления</NavLink>
@@ -59,6 +57,7 @@ class Profile extends React.Component {
 
                     <div className="row bg-light p-5">
                         <Switch>
+                        {/* <Redirect from='/profile' to='/profile/my_announcements' /> */}
                             <PrivateRoute path="/profile/my_announcements" component={OWN_ANNOUNCEMENTS_W} exact />
                             <PrivateRoute path="/profile/my_messages" component={Messages} exact />
                             <PrivateRoute path="/profile/my_settings" component={SETTINGS_W} exact />

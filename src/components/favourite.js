@@ -1,53 +1,57 @@
 import React from 'react';
 import ANNOUNCEMENT_CARD_W from './wrappers/announcement_card_w'
+import Loader from './loader'
 
 class Favourite extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      announcements:''
+      announcements:'',
+      favourite:''
     }
   }
 
   componentDidMount (){
     this.props.onSearchFavourite({id:this.props.userId,token: this.props.token})
-    .then(()=>this.setState({announcements:this.props.announcements}))
-    
+    .then(()=>{
+      if(this.props.announcements){
+    this.setState({announcements:this.props.announcements,
+                             favourite:this.props.announcements.map(a=>a.announcement?a.announcement.id:null)
+    })}})
   }
 
   componentDidUpdate(prevProps){
     if(prevProps.responseCreateLike !== this.props.responseCreateLike){
       this.props.onSearchFavourite({id:this.props.userId,token: this.props.token})
-      .then(()=>this.setState({announcements:this.props.announcements}))
+      .then(()=>this.setState({announcements:this.props.announcements,
+                               favourite:this.props.announcements.map(a=>a.announcement?a.announcement.id:null)
+      }))
     }
   }
 
 
     render() {
-      console.log("favourite",this.props)
-      if(this.state.announcements.length>0){
+      if(this.state.announcements.length>0 && this.state.favourite){
         return (
-            <div className="bg-light mb-5">
+            <div className="bg-light p-5 mb-5">
                 <div className="container mt-5">
-                    <h2 className="text-center mb-5">Избранные объявления</h2>
+                    <h2 className="text-center mb-5 ">Избранные объявления</h2>
                     <div className="row d-flex ">
                         {
-                           this.state.announcements.length>0? this.state.announcements.map(a =>
+                           this.state.announcements ? this.state.announcements.map(a =>
                              a.announcement?
-                            // let identifier = a.announcement.id;
-                           (<ANNOUNCEMENT_CARD_W key={a.announcement.id}
-                                                        announcement={a.announcement} 
-                                                        identifier={a.announcement.id}
-                                                        history = {this.props.history}
-                                                        />):null
-                                                        )
-                                                        :<h3>Нет избранных</h3>  
+                            (<ANNOUNCEMENT_CARD_W key={a.announcement.id}
+                                                  announcement={a.announcement} 
+                                                  identifier={a.announcement.id}
+                                                  history = {this.props.history}
+                                                  userLikes={this.state.favourite}
+                              />):null) :<h3>Нет избранных</h3>  
                         }
                     </div>
                 </div>
             </div>
         )}else{
-          return<div>Пока пусто</div>
+          return <Loader/>
         }
     }
 }

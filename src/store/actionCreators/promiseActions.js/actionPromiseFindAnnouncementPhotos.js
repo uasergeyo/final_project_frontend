@@ -9,6 +9,7 @@ export default function actionPromiseFindAnnouncementPhotos({id }) {
             photo{
                 id
                 photoLink
+                announcementId
             }
     }
 }

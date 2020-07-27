@@ -27,6 +27,8 @@ import {actionPromiseSearch,
     actionPromiseRemovePhoto,
     actionPromiseCreatePhotoForAnnouncement,
     actionPromiseCreateUserPhoto,
+    actionPromiseFindLikes,
+    actionPromiseSetPhotoAsMain
 
 
 
@@ -62,21 +64,12 @@ export {
     actionFindAnnouncementPhotos,
     actionRemovePhoto,
     actionCreatePhotoForAnnouncement,
-    actionCreateUserPhoto
+    actionCreateUserPhoto,
+    actionFindLikes,
+    actionSetMainPhoto,
 }
 
 
-// function actionLoginPromise( userEmail, userPassword ) {
-//     let promise = getGQL()
-//     (`query login($userEmail:String!, $userPassword:String!){
-//         logInAuth(userEmail:$userEmail,userPassword:$userPassword){
-//           token
-//         }
-//       } `, { userEmail, userPassword })
-        
-//     return  actionPromise('login', promise)
-
-// }
 
 function actionLogin(userEmail, userPassword){
     return async dispatch => {
@@ -89,28 +82,20 @@ function actionLogin(userEmail, userPassword){
 }
 }
 
-// function actionRegisterPromise(userEmail, userPassword){
-//     let promise = getGQL()
-//     (`mutation newUser($userEmail:String!,$userPassword:String!){
-//   createUser(userEmail: $userEmail,userPassword: $userPassword){
-//     id
-//   }
-// }
-//     `, {userEmail, userPassword}
-//     )
-//     return actionPromise('register', promise)
-// }
-
 function actionRegister(userEmail,userPassword){
     return async dispatch => {debugger;
         let user  =await dispatch(actionRegisterPromise(userEmail,userPassword))
-        if (!user.errors) {
+        // if (!user.errors) {
+        if (d`${user}.data.createUser.id`) {
             try{                
                await dispatch(actionLogin(userEmail,userPassword))                
             }catch(e){
                 console.log("actionRegister",e)
                 if (store.getState().login.jwt_token) window.location.replace("/profile/my_settings")
             }
+        }else{
+            let err =d`${user}.errors`
+           console.log(err[0].message)
         }
     }
 }
@@ -255,7 +240,20 @@ function actionCreateUserPhoto(data){
     }
 }
 
+function actionFindLikes(data){
+    return async dispatch =>{
+        return await dispatch(actionPromiseFindLikes(data))
+    }
+}
+
+function actionSetMainPhoto(data){
+    return async dispatch =>{
+        return await dispatch(actionPromiseSetPhotoAsMain(data))
+    }
+}
+
 function actionLogout() {
+    // state.promiseReducer.jwt_token
     return {
         type: LOGOUT,
         jwt_token: null

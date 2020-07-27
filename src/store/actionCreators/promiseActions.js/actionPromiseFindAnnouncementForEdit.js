@@ -19,6 +19,8 @@ export default function actionPromiseFindAnnouncementForEdit({token,id}) {
             photo{
                 id
                 photoLink
+                announcementId
+                isMain
             }
             category{
                 id

@@ -24,7 +24,10 @@ import { actionLogin,
 		 actionFindAnnouncementPhotos,
 		 actionRemovePhoto,
 		 actionCreatePhotoForAnnouncement,
-		 actionCreateUserPhoto
+		 actionCreateUserPhoto,
+		 actionFindLikes,
+		 actionSetMainPhoto,
+
 
 
 		} from './actionCreators';
@@ -66,11 +69,12 @@ function mapDispatchToProps(component) {
 		case "AnnouncementsField": return function (dispatch){
 			return {
 				onSearch:bindActionCreators(actionSearch,dispatch),
+				onSearchLikes:bindActionCreators(actionFindLikes,dispatch),
 			}
 		};
 		case "CreateAnnouncement":return function (dispatch){
 			return{
-				onAddPhoto:bindActionCreators(actionAddPhoto,dispatch),
+				// onAddPhoto:bindActionCreators(actionAddPhoto,dispatch),
 				onAnnouncementParams:bindActionCreators(actionGetSearchParams,dispatch),
 				onCreateAnnouncement:bindActionCreators(actionCreateAnnouncement,dispatch)
 			}
@@ -89,7 +93,7 @@ function mapDispatchToProps(component) {
 		case "AnnouncementCard": return function(dispatch){
 			return{
 				onCreateLike: bindActionCreators(actionCreateLike,dispatch),
-				onRemoveAnnouncement: bindActionCreators(actionRemoveAnnouncement,dispatch)
+				onRemoveAnnouncement: bindActionCreators(actionRemoveAnnouncement,dispatch),
 			}
 		};
 
@@ -101,7 +105,8 @@ function mapDispatchToProps(component) {
 
 		case "OwnAnnouncements":return function(dispatch){
 			return{
-				onFindOwnAnnouncements: bindActionCreators(actionFindOwnAnnouncements,dispatch)
+				onFindOwnAnnouncements: bindActionCreators(actionFindOwnAnnouncements,dispatch),
+				onSearchLikes:bindActionCreators(actionFindLikes,dispatch),
 			}
 		};
 
@@ -133,6 +138,7 @@ function mapDispatchToProps(component) {
 			return{
 				onRemovePhoto: bindActionCreators(actionRemovePhoto,dispatch),
 				onAddPhoto: bindActionCreators(actionCreatePhotoForAnnouncement,dispatch),
+				onSetMainPhoto:bindActionCreators(actionSetMainPhoto,dispatch),
 			}
 		}
 		

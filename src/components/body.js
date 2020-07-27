@@ -10,7 +10,7 @@ class Body extends React.Component {
     render() {
         
         return (
-            <div >
+            <div>
                 <HEADER_W history={this.props.history} />
                 <MAIN_W />
                 <Footer />

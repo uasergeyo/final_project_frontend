@@ -2,6 +2,9 @@ import React from 'react';
 import Loader from './loader'
 import AlertMessage from './alert_message'
 import Slider from './slider'
+// import PHOTO_GALLERY_W from './wrappers/photo_gallery_w'
+
+
 class CreateAnnouncement extends React.Component {
     constructor(props) {
         super(props);
@@ -42,6 +45,20 @@ class CreateAnnouncement extends React.Component {
                 })
             )
         }
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.report !== this.props.report && this.props.report ){
+            this.props.history.push(`/announcement-action-result/${this.props.report}`)
+        }
+        // if(prevProps.isChangeInPhoto !== this.props.isChangeInPhoto){
+        //     this.props.onFindAnnouncementPhotos({ id: this.props.announcement.id })
+        //     .then(()=>this.setState({ photo:this.props.updatedPhoto}))
+        // }else if(prevProps.newPhoto !== this.props.newPhoto){          
+        //     this.props.onFindAnnouncementPhotos({ id: this.props.announcement.id })
+        //     .then(()=>this.setState({ photo:this.props.updatedPhoto}))
+        // }
+        
     }
 
     requestHeaderHandler = (e) => {
@@ -115,6 +132,18 @@ class CreateAnnouncement extends React.Component {
         arr.push("http://localhost:4000/announcements" + photoName)
         this.setState({ photo: arr })
     }
+
+    // inputPhotoHandler = async (e) => {
+    //     let photoName = "/" + await (await fetch('http://localhost:4000/upload/announcements', {
+    //         method: "POST",
+    //         body: e.target.files[0]
+    //     })).text()
+    //     this.props.onAddPhoto({
+    //         token:this.props.token,
+    //         announcementId: this.props.announcement.id,
+    //         photoLink:`http://localhost:4000/announcements${photoName}`
+    //     })
+    // }
 
     checkHasDeliveryHandler = (e) => {
         this.setState({ hasDelivery: e.target.checked })
@@ -213,6 +242,8 @@ class CreateAnnouncement extends React.Component {
                                 </div>
                             </div>
                             {this.state.photo?<div className="w-50 m-auto p-3 border-"><Slider images={this.state.photo}/></div>:null}
+                            {/* {this.state.photo?<PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token}/> :null} */}
+
                             <div className="d-flex mt-3 mb-3">
                                 <div className="col pl-0 col-lg-3">
                                     <label htmlFor="inputSelectCurrency" id="inputMaxPrice">Bалютa</label>

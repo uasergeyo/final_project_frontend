@@ -61,6 +61,8 @@ class Settings extends React.Component {
         }else if(prevProps.addPhoto !==this.props.addPhoto){
             this.props.onGetAvatarPhoto({ userId: this.props.userId})
             .then(()=>this.setState({photo:this.props.updatedUserPhoto}))
+        }else if(prevProps.setMainPhoto !== this.props.setMainPhoto && this.props.setMainPhoto){console.log("prevProps.setMainPhoto !== this.props.setMainPhoto",prevProps.setMainPhoto,this.props.setMainPhoto)
+            this.setState({photo:this.props.setMainPhoto})
         }
     }
 
@@ -135,10 +137,10 @@ class Settings extends React.Component {
         this.setState({ phoneNumber: e.target.value })
     }
 
-    buttonRemovePhoneHandler = (e) => {
+    buttonRemovePhoneHandler = (id) => {
         this.props.onRemovePhone({
             token: this.props.token,
-            id: e.target.name,
+            id,
         }).then(()=>this.setState({phones:this.props.removePhoneNumbers}))
     }
 
@@ -167,11 +169,11 @@ class Settings extends React.Component {
        
     }
 
-    buttonSavePhotoHandler = (e) => {
-        this.props.onGetAvatarPhoto({                
-                userId: this.props.userId
-               })
-    }
+    // buttonSavePhotoHandler = (e) => {
+    //     this.props.onGetAvatarPhoto({                
+    //             userId: this.props.userId
+    //            })
+    // }
 
     buttonRemoveProfileHandler = () => {
         this.props.onRemoveUser({
@@ -262,10 +264,10 @@ class Settings extends React.Component {
                                             <div className="form-group m-4">
                                                 <div className="form-group">
                                                     <div className="d-flex flex-column">
-                                                        {this.state.phones ? this.state.phones.map(a => <div className="d-flex" key={a.id} ><p>{a.phone}</p> <button name={a.id} onClick={this.buttonRemovePhoneHandler.bind(this)}>Удалить номер</button></div>) : null}
+            {this.state.phones ? this.state.phones.map(a =><div className="d-flex w-50" key={a.id} ><p>{a.phone}</p> <p className="cursor-pointer primary-color-for-text ml-3" onClick={()=>this.buttonRemovePhoneHandler(a.id)} name={a.id} > Удалить номер</p></div>) : null}
                                                     </div>
                                                     <label htmlFor="inputSettingsPhone">Добавить телефон</label>
-                                                    <input onChange={this.editPhoneHandler.bind(this)} type="text" className="form-control" id="inputSettingsPhone" placeholder="Another input placeholder" />
+                                                    <input onChange={this.editPhoneHandler.bind(this)} type="phone" className="form-control" id="inputSettingsPhone" placeholder="Another input placeholder" />
                                                 </div>
                                                 <span className="d-flex justify-content-center m-4">
                                                     <button onClick={this.buttonEditPhoneHandler} type="button" className="btn btn-lg btn-primary">Coxpaнить</button>
@@ -288,9 +290,9 @@ class Settings extends React.Component {
                                                     {this.state.photo ? <img src={this.state.photo} className="img-thumbnail w-25" alt={this.state.profilePhoto} /> : null}
                                                     <input onChange={this.inputPhotoHandler.bind(this)} type="file" name="file" />
                                                 </div>
-                                                <span className="d-flex justify-content-center m-4">
+                                                {/* <span className="d-flex justify-content-center m-4">
                                                     <button onClick={this.buttonSavePhotoHandler} type="button" className="btn btn-lg btn-primary">Coxpaнить</button>
-                                                </span>
+                                                </span> */}
                                             </div>
                                         </div>
                                     </div>
@@ -315,13 +317,6 @@ class Settings extends React.Component {
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
             )
         } else {
             return <Loader />

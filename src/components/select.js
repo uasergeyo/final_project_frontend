@@ -148,7 +148,7 @@ class Select extends React.Component {
     render() {
         if(this.props.areas){
         return (
-            <div className="jumbotron jumbotron-fluid">
+            <div className="jumbotron jumbotron-fluid mb-0">
                 <div className="container ">
                     <div className="row">
                         <div className="col">

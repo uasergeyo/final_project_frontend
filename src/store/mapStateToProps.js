@@ -5,32 +5,44 @@ function mapStateToProps(component) {
 		case "LogIn": {
 			return function (state) {
 				return {
-					token: state.login.jwt_token,
+					token: d`${state}.login.jwt_token`,
 					user: state.login.userData,
 					animation: state.login.pending,
 					previousURL: state.redirectedFromLink.redirectedFrom 
 				};
 			}
 		}
+		case "Registration":{
+			return function (state){
+				return{
+					registrationResponse:d`${state}.promiseReducer.getUserInfo.payload.data.getUser.userEmail`,
+					// emailHandler:d`${state}login.validators.emailHandler`
+				}
+			}
+		}
+
 		case "Profile": {
 			return function (state) {
 				return {                                                              
 					avatar: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.photos`,
-					userId: d`${state}.promiseReducer.userData.id`,
-					token: d`${state}.promiseReducer.jwt_token`,
+					userId: d`${state}.login.userData.id`,
+					// userId: d`${state}.promiseReducer.userData.id`,
+					token: d`${state}.login.jwt_token`,
+					// token: d`${state}.promiseReducer.jwt_token`,
 					user: d`${state}.promiseReducer.getUserInfo.payload.data.getUser`,
+					resAvaPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`
 				};
 			}
-		}
+		};
 		case "Main": {
 			return function (state) {
 				return {
-					token: state.login.jwt_token,
+					token: d`${state}.login.jwt_token`,
 					user: state.login.userData,
 					animation: state.login.pending,
 					previousURL: state.redirectedFromLink.redirectedFrom
-				}
-			};
+				};
+			}
 		};
 		case "Header": {
 			return function (state) {
@@ -63,6 +75,12 @@ function mapStateToProps(component) {
 					requestData:d`${state}.passRequestData.requestData`,
 					announcements: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.rows`,
 					count: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.count`,
+					// userId: d`${state}.promiseReducer.userData.id`,
+					// token: d`${state}.promiseReducer.jwt_token`,
+					userId: d`${state}.login.userData.id`,
+					token: d`${state}.login.jwt_token`,
+					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`,
+
 				}
 			}
 		};
@@ -74,21 +92,31 @@ function mapStateToProps(component) {
 					categories: d`${state}.promiseReducer.params_for_announcements.payload.data.getCategories`,
 					currencies: d`${state}.promiseReducer.params_for_announcements.payload.data.getCurrencies`,
 					data: d`${state}.promiseReducer.params_for_announcements.payload.data`,
-					userId: d`${state}.promiseReducer.userData.id`,
-					token: d`${state}.promiseReducer.jwt_token`,
-					report: d`${state}.promiseReducer.createAnnouncement.payload.data.createAnnouncement.id`
+					userId: d`${state}.login.userData.id`,
+					token: d`${state}.login.jwt_token`,
+					report: d`${state}.promiseReducer.createAnnouncement.payload.data.createAnnouncement.id`,
+					// token:    d`${state}.promiseReducer.jwt_token`,
+
+
+
+
+					// newPhoto:d`${state}.promiseReducer.createAnnouncementPhoto.payload.data.createPhoto.id`,
+					// updatedPhoto:d`${state}.promiseReducer.getAnnouncementPhotos.payload.data.getAnnouncement.photo`,
+					// isChangeInPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
 				}
 			}
 		};
 		case "Favourite": {
 			return function (state) {
 				return {
-					userId: d`${state}.promiseReducer.userData.id`,
-					token: d`${state}.promiseReducer.jwt_token`,
+					// userId: d`${state}.promiseReducer.userData.id`,
+					// token: d`${state}.promiseReducer.jwt_token`,
+					userId: d`${state}.login.userData.id`,
+					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}.promiseReducer.findFavourite.payload.data.getUser.favourite`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
+					// userLikes:d`${state}.promiseReducer.findFavourite.payload.data.getUser.favourite`
 				}
-
 			}
 		};
 
@@ -105,9 +133,12 @@ function mapStateToProps(component) {
 		case "AnnouncementCard": {
 			return function (state) {
 				return {
-					token: d`${state}.promiseReducer.jwt_token`,
+					// token: d`${state}.promiseReducer.jwt_token`,
+					token: d`${state}.login.jwt_token`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
-					userId: d`${state}.promiseReducer.userData.id`,
+					userId: d`${state}.login.userData.id`,
+					// userId: d`${state}.promiseReducer.userData.id`,
+					// userLikes:d`${state}.promiseReducer.userData`
 				}
 			}
 		}
@@ -115,10 +146,12 @@ function mapStateToProps(component) {
 		case "FullAnnouncement": {
 			return function (state) {
 				return {
-					userId: d`${state}.promiseReducer.userData.id`,
+					// userId: d`${state}.promiseReducer.userData.id`,
+					userId: d`${state}.login.userData.id`,
 					announcement: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement`,
 					userName: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.userName`,
 					phones: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.phones`,
+					email: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.userEmail`,
 					avatar: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.photos`,
 					area: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.area.areaName`,
 					city: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.city.cityName`,
@@ -130,10 +163,13 @@ function mapStateToProps(component) {
 		case "OwnAnnouncements" :{
 			return function(state){
 				return {
-					userId: d`${state}.promiseReducer.userData.id`,
-					token: d`${state}.promiseReducer.jwt_token`,
+					// userId: d`${state}.promiseReducer.userData.id`,
+					// token: d`${state}.promiseReducer.jwt_token`,
+					userId: d`${state}.login.userData.id`,
+					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}promiseReducer.findOwn.payload.data.getUser.announcements`,
 					responseRemoveAnnouncement: d`${state}.promiseReducer.removeAnnouncement.payload.data`,
+					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`,
 				}
 			}
 		};
@@ -141,8 +177,10 @@ function mapStateToProps(component) {
 		case "Settings" :{
 			return function(state){
 				return {
-					userId:   d`${state}.promiseReducer.userData.id`,
-					token:    d`${state}.promiseReducer.jwt_token`,
+					// userId:   d`${state}.promiseReducer.userData.id`,
+					// token:    d`${state}.promiseReducer.jwt_token`,
+					userId: d`${state}.login.userData.id`,
+					token: d`${state}.login.jwt_token`,
 					userInfo: d`${state}.promiseReducer.getUserInfo.payload.data.getUser`,
 					photo: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.photos`,
 					areas:    d`${state}promiseReducer.getUserInfo.payload.data.getAreas`,
@@ -159,7 +197,8 @@ function mapStateToProps(component) {
 					cityName: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.city.cityName`,
 					updatedUserPhoto: d`${state}.promiseReducer.getUserPhoto.payload.data.getUserPhotos`,
 					deletedPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
-					addPhoto:d`${state}.promiseReducer.createUserPhoto.payload.data.createPhoto.id`
+					addPhoto:d`${state}.promiseReducer.createUserPhoto.payload.data.createPhoto.id`,
+					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`
 					
 
 				}
@@ -169,15 +208,18 @@ function mapStateToProps(component) {
 		case "EditAnnouncement":{
 			return function(state){
 				return{
-					token:    d`${state}.promiseReducer.jwt_token`,
+					// token:    d`${state}.promiseReducer.jwt_token`,
+					token: d`${state}.login.jwt_token`,
 					announcement:d`${state}.promiseReducer.findAnnouncementForEdit.payload.data.getAnnouncement`,
 					categories: d`${state}.promiseReducer.findAnnouncementForEdit.payload.data.getCategories`,
 					currencies: d`${state}.promiseReducer.findAnnouncementForEdit.payload.data.getCurrencies`,
-					userId:   d`${state}.promiseReducer.userData.id`,
+					// userId:   d`${state}.promiseReducer.userData.id`,
+					userId: d`${state}.login.userData.id`,
 					responseOnEdit: d`${state}.promiseReducer.editAnnouncement.payload.data.editAnnouncement.id`,
 					updatedPhoto:d`${state}.promiseReducer.getAnnouncementPhotos.payload.data.getAnnouncement.photo`,
 					isChangeInPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
-					newPhoto:d`${state}.promiseReducer.createAnnouncementPhoto.payload.data.createPhoto.id`
+					newPhoto:d`${state}.promiseReducer.createAnnouncementPhoto.payload.data.createPhoto.id`,
+					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`,
 
 				}
 			}

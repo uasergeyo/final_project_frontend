@@ -28,11 +28,13 @@ export default function actionPromiseFindFavourite({token,id}) {
                 }
                 photo{
                 photoLink
+                isMain
                  }
                 currency{
                   id
                   currencySymbol
                 }
+                announcementPrice
   }
       }
     }

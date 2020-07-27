@@ -24,6 +24,8 @@ export default function actionPromiseGetUserInfo({ token, id }) {
             photos{
                 id
                 photoLink
+                isMain
+                userId
             }
             userEmail
         }

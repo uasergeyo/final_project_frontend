@@ -18,7 +18,7 @@ class LogIn extends React.Component {
 
   onLoginHandler = (e) => {
     try{
-      this.props.onLogin(this.state.userEmail, this.state.userPassword )
+      this.props.onLogin(this.state.userEmail, this.state.userPassword)
       .then(()=>window.location.replace(this.props.previousURL))
     }catch(error){
       console.log(error)
