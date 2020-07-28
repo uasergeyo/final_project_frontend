@@ -1,6 +1,7 @@
 import React from 'react';
 import Loader from './loader';
 import PHOTO_GALLERY_W from './wrappers/photo_gallery_w'
+import Alert from 'react-bootstrap/Alert'
 
 
 class Settings extends React.Component {
@@ -14,13 +15,27 @@ class Settings extends React.Component {
             userName: '',
             userEmail: '',
             userPassword: '',
-            phoneNumber: '',
+            phoneNumber: '+380',
             phones: '',
             photo: '',
             areaName: '',
             cityName: '',
-            addPhoneNumbers:[],
-            removePhoneNumbers:[],
+            addPhoneNumbers: [],
+            removePhoneNumbers: [],
+            // ----validators--
+            warningPhone: "",
+            warningName: "",
+            responseOnUpdateUserNameAndLocation: false,
+            warningUpdateUserNameAndLocation: "",
+            passInputSucess: false,
+            passwordInfo: "",
+            emailInfo: "",
+            passCompareSucess: false,
+            passCopyInfo: "",
+            userPasswordRepeat: "",
+            wrongPassOrEmail:"",
+            isDataChangeSuccess:false,
+
         }
     }
 
@@ -35,7 +50,7 @@ class Settings extends React.Component {
                 phones: this.props.phones,
                 areaName: this.props.areaName,
                 cityName: this.props.cityName,
-                photo:this.props.photo,
+                photo: this.props.photo,
             })
         } else {
             this.props.onGetUserInfo({ id: this.props.userId, token: this.props.token })
@@ -48,7 +63,7 @@ class Settings extends React.Component {
                     phones: this.props.phones,
                     areaName: this.props.userInfo.area.areaName,
                     cityName: this.props.userInfo.city.cityName,
-                    photo:this.props.photo
+                    photo: this.props.photo
 
                 }))
         }
@@ -56,18 +71,36 @@ class Settings extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.deletedPhoto !== this.props.deletedPhoto) {
-            this.props.onGetAvatarPhoto({ userId: this.props.userId})
-            .then(()=>this.setState({photo:this.props.updatedUserPhoto}))
-        }else if(prevProps.addPhoto !==this.props.addPhoto){
-            this.props.onGetAvatarPhoto({ userId: this.props.userId})
-            .then(()=>this.setState({photo:this.props.updatedUserPhoto}))
-        }else if(prevProps.setMainPhoto !== this.props.setMainPhoto && this.props.setMainPhoto){console.log("prevProps.setMainPhoto !== this.props.setMainPhoto",prevProps.setMainPhoto,this.props.setMainPhoto)
-            this.setState({photo:this.props.setMainPhoto})
+            this.props.onGetAvatarPhoto({ userId: this.props.userId })
+                .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
+        } else if (prevProps.addPhoto !== this.props.addPhoto) {
+            this.props.onGetAvatarPhoto({ userId: this.props.userId })
+                .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
+        } else if (prevProps.setMainPhoto !== this.props.setMainPhoto && this.props.setMainPhoto) {
+            console.log("prevProps.setMainPhoto !== this.props.setMainPhoto", prevProps.setMainPhoto, this.props.setMainPhoto)
+            this.setState({ photo: this.props.setMainPhoto })
+        } else if (prevProps.responseOnUpdateUserNameAndLocation !== this.props.responseOnUpdateUserNameAndLocation) {
+            this.setState({ responseOnUpdateUserNameAndLocation: this.props.responseOnUpdateUserNameAndLocation })
+        }else if(prevProps.responseOnPassAndEmailChange !== this.props.responseOnPassAndEmailChange && this.props.responseOnPassAndEmailChange){
+            this.setState({isDataChangeSuccess:true})
+        }else if(prevProps.responseOnPassAndEmailError !== this.props.responseOnPassAndEmailError &&this.props.responseOnPassAndEmailError && this.props.responseOnPassAndEmailError[0]){
+            this.setState({wrongPassOrEmail:this.props.responseOnPassAndEmailError[0].message})
+            
         }
     }
 
     editNameHandler = (e) => {
-        this.setState({ userName: e.target.value })
+        if (!e.target.value.length || e.target.value.length > 2) {
+            this.setState({
+                userName: e.target.value ? e.target.value[0].toUpperCase() + e.target.value.slice(1) : "",
+                warningName: ""
+            })
+        } else {
+            this.setState({
+                userName: "",
+                warningName: "И́я (др.-греч. Ἰάς — «иониянка») — женское русское личное имя греческого происхождения"
+            })
+        }
     }
 
     editAreaHandler = (e) => {
@@ -103,55 +136,190 @@ class Settings extends React.Component {
     }
 
     buttonContactDataHandler = () => {
-        this.props.onUpdateUserNameAndCity({
-            token: this.props.token,
-            data: {
-                id: this.props.userId,
-                userName: this.state.userName,
-                cityId: this.state.cityId,
-                areaId: this.state.areaId,
-            }
-        })
+        if (this.state.userName && this.state.cityId && this.state.areaId) {
+            this.setState({
+                responseOnUpdateUserNameAndLocation: false,
+                warningUpdateUserNameAndLocation: ""
+            }, () =>
+                this.props.onUpdateUserNameAndCity({
+                    token: this.props.token,
+                    data: {
+                        id: this.props.userId,
+                        userName: this.state.userName,
+                        cityId: this.state.cityId,
+                        areaId: this.state.areaId,
+                    }
+                }))
+        } else {
+            this.setState({ warningUpdateUserNameAndLocation: "Все поля должны быть заполнены соответствующим образом" })
+        }
+        // responseOnUpdateUserNameAndLocation
     }
 
     editEmailHandler = (e) => {
-        this.setState({ userEmail: e.target.value })
+        if (this.validateEmail(e.target.value)) {
+            this.setState({
+                userEmail: e.target.value,
+                emailInfo: ""
+            })
+        } else if (!e.target.value || !this.validateEmail(e.target.value)) {
+            this.setState({
+                userEmail: e.target.value,
+                emailInfo: "Email должен быть формата email@email.com"
+            })
+        }
     }
 
     editPasswordHandler = (e) => {
-        this.setState({ userPassword: e.target.value })
+        if (!e.target.value) {
+            this.setState({
+                passInputSucess: false,
+                userPassword: e.target.value,
+                passwordInfo: ""
+            })
+        } else if (e.target.value.length < 8) {
+            this.setState({
+                passInputSucess: false,
+                passwordInfo: "Короткий пароль. Минимум 8 символов.",
+                userPassword: e.target.value,
+            })
+        } else if (e.target.value === e.target.value.toLowerCase()) {
+            this.setState({
+                passInputSucess: false,
+                passwordInfo: "Пароль должен состоять из заглавных и строчных символов.",
+                userPassword: e.target.value,
+            })
+        } else if (e.target.value.match(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/)) {
+            this.setState({
+                passInputSucess: true,
+                userPassword: e.target.value,
+                passwordInfo: "Суперпароль ."
+            })
+        } else if (this.validatePassword(e.target.value)) {
+            this.setState({
+                passInputSucess: true,
+                userPassword: e.target.value,
+                passwordInfo: "Надежный пароль"
+            })
+        }
+    }
+
+    passwordRepeatHandler = (e) => {
+        if (e.target.value === "") {
+            this.setState({
+                passCopyInfo: "",
+                passCompareSucess: false,
+                userPasswordRepeat: e.target.value
+            })
+        } else if (this.state.userPassword === e.target.value) {
+            this.setState({
+                passCompareSucess: true,
+                passCopyInfo: "Пароли совпали",
+                userPasswordRepeat: e.target.value
+            })
+        } else if (this.state.userPassword !== e.target.value) {
+            this.setState({
+                passCopyInfo: "Пароли должны быть одинаковые",
+                userPasswordRepeat: e.target.value,
+                passCompareSucess: false
+            })
+        }
+    }
+
+    validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    validatePassword(pass) {
+        let lowerPass = pass.toLowerCase()
+        if (pass.length > 7 && lowerPass !== pass) {
+            return true
+        } else {
+            return false
+        }
     }
 
     buttonLoginAndEmailHandler = () => {
-        this.props.onUpdateUserLoginAndPassword({
-            token: this.props.token,
-            data: {
-                id: this.props.userId,
-                userEmail: this.state.userEmail,
-                userPassword: this.state.userPassword
-            }
-        })
+        if (this.validateEmail(this.state.userEmail) && this.validatePassword(this.state.userPassword) && this.state.userPasswordRepeat === this.state.userPassword) {
+            // this.props.onUpdateUserLoginAndPassword({
+            //     token: this.props.token,
+            //     data: {
+            //         id: this.props.userId,
+            //         userEmail: this.state.userEmail,
+            //         userPassword: this.state.userPassword
+            //     }
+            // })
+            this.setState({
+                wrongPassOrEmail:"",
+                isDataChangeSuccess:false,
+            },()=>this.props.onUpdateUserLoginAndPassword({
+                token: this.props.token,
+                data: {
+                    id: this.props.userId,
+                    userEmail: this.state.userEmail,
+                    userPassword: this.state.userPassword
+                }
+            }).then(()=>this.setState({ userPassword:"",
+                                        userPasswordRepeat:"",
+                                        passwordInfo: "",
+                                        passCopyInfo:"",passInputSucess:"",
+                                        passCompareSucess:""}))
+            )
+        } else {
+            this.setState({
+                wrongPassOrEmail:"Все поля должны быть заполнены соответствующими значениями.",
+                isDataChangeSuccess:false
+            })
+        }
     }
 
     editPhoneHandler = (e) => {
-        this.setState({ phoneNumber: e.target.value })
+        if (e.target.value.match(/^\+[0-9]{12}$/)) {
+            this.setState({
+                phoneNumber: e.target.value,
+                warningPhone: ""
+            })
+        } else {
+            this.setState({
+                warningPhone: "Телефон должен быть формата +380*********",
+                phoneNumber: e.target.value,
+
+            })
+        }
     }
 
     buttonRemovePhoneHandler = (id) => {
         this.props.onRemovePhone({
             token: this.props.token,
             id,
-        }).then(()=>this.setState({phones:this.props.removePhoneNumbers}))
+        }).then(() => this.setState({ phones: this.props.removePhoneNumbers }))
     }
 
     buttonEditPhoneHandler = () => {
-        this.props.onAddPhoneNumber({
-            token: this.props.token,
-            data: {
-                phone: this.state.phoneNumber,
-                userId: this.props.userId,
-            }
-        }).then(()=>this.setState({phones:this.props.addPhoneNumbers}))
+        if (this.state.phoneNumber.match(/^\+[0-9]{12}$/) && this.state.phones.map(a => a.phone).indexOf(this.state.phoneNumber) === -1) {
+            this.props.onAddPhoneNumber({
+                token: this.props.token,
+                data: {
+                    phone: this.state.phoneNumber,
+                    userId: this.props.userId,
+                }
+            }).then(() => this.setState({
+                phones: this.props.addPhoneNumbers,
+                warningPhone: "",
+                phoneNumber: "+380"
+            }))
+        } else if(this.state.phones.map(a => a.phone).indexOf(this.state.phoneNumber) !== -1) {
+            this.setState({
+                // phoneNumber: "+380",
+                warningPhone: "Этот номер уже добавлен"
+            })
+        }else if(!this.state.phoneNumber.match(/^\+[0-9]{12}$/)){
+            this.setState({
+                // phoneNumber: "+380",
+                warningPhone: "Телефон должен быть формата +380*********"
+            })
+        }
     }
 
     inputPhotoHandler = async (e) => {
@@ -162,11 +330,11 @@ class Settings extends React.Component {
         this.props.onAddAvatar({
             token: this.props.token,
             data: {
-                photoLink:`http://localhost:4000/users${photoName}` ,
+                photoLink: `http://localhost:4000/users${photoName}`,
                 userId: this.props.userId,
             }
         })
-       
+
     }
 
     // buttonSavePhotoHandler = (e) => {
@@ -197,9 +365,12 @@ class Settings extends React.Component {
                                     </div>
                                     <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                         <div className="card-body">
+                                            {
+                                                this.state.warningUpdateUserNameAndLocation ? <p className="inputWarning">{this.state.warningUpdateUserNameAndLocation}</p> : null
+                                            }
                                             <div className="form-group m-4">
                                                 <div className="form-group">
-                                                    <label htmlFor="editInputName">Сменить имя</label>
+                                                    <label htmlFor="editInputName" className={this.state.warningName ? "inputWarning" : ""}>{this.state.warningName ? this.state.warningName : "Сменить имя"}</label>
                                                     <input type="text" onChange={this.editNameHandler.bind(this)} defaultValue={this.props.userInfo.userName} className="form-control" id="editInputName" placeholder="Example input placeholder" />
                                                 </div>
                                                 <div className="d-flex ">
@@ -218,6 +389,12 @@ class Settings extends React.Component {
                                                         </select>
                                                     </div>
                                                 </div>
+                                                {
+                                                    this.state.responseOnUpdateUserNameAndLocation ? (
+                                                        <Alert className="mb-3 mt-3 text-center" variant="success" onClose={() => this.setState({ responseOnUpdateUserNameAndLocation: false })} dismissible>
+                                                            <Alert.Heading>Изменения успешно сохранены.</Alert.Heading>
+                                                        </Alert>) : null
+                                                }
                                                 <span className="d-flex justify-content-center m-4">
                                                     <button type="button" onClick={this.buttonContactDataHandler} className="btn btn-lg btn-primary">Coxpaнить</button>
                                                 </span>
@@ -234,18 +411,24 @@ class Settings extends React.Component {
                                     <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                         <div className="card-body">
                                             <div className="form-group m-4">
+                                            <p className="inputWarning">{this.state.wrongPassOrEmail}</p>
                                                 <div className="form-group">
-                                                    <label htmlFor="inputSettingsEmail">Сменить email</label>
+                                                    <label htmlFor="inputSettingsEmail" className={this.state.emailInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.emailInfo ? this.state.emailInfo : "Сменить email"}</label>
                                                     <input onChange={this.editEmailHandler.bind(this)} defaultValue={this.state.userEmail} type="email" className="form-control" id="inputSettingsEmail" placeholder="Another input placeholder" />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label htmlFor="inputSettingsPassword">Введите новый пароль</label>
-                                                    <input onChange={this.editPasswordHandler.bind(this)} type="password" className="form-control" id="inputSettingsPassword" placeholder="Example input placeholder" />
+                                                    <label htmlFor="inputSettingsPassword" className={this.state.passInputSucess ? "inputSucess mb-1" : this.state.passwordInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.passwordInfo ? this.state.passwordInfo : "Введите новый пароль"}</label>
+                                                    <input onChange={this.editPasswordHandler.bind(this)} type="password" value={this.state.userPassword} className="form-control" id="inputSettingsPassword" placeholder="Example input placeholder" />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label htmlFor="inputSettingsPasswordRepeat">Повторите пароль</label>
-                                                    <input type="password" className="form-control" id="finputSettingsPasswordRepeat" placeholder="Another input placeholder" />
+                                                    <label htmlFor="inputSettingsPasswordRepeat" className={this.state.passCompareSucess ? "inputSucess mb-1" : this.state.passCopyInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.passCopyInfo ? this.state.passCopyInfo : "Повторите новый пароль"}</label>
+                                                    <input type="password" onChange={this.passwordRepeatHandler.bind(this)} value={this.state.userPasswordRepeat} className="form-control" id="finputSettingsPasswordRepeat" placeholder="Another input placeholder" />
                                                 </div>
+                                                {
+                                                    this.state.isDataChangeSuccess?( <Alert variant="success" onClose={() => this.setState({isDataChangeSuccess:false})} dismissible>
+                                                    <Alert.Heading className="mb-3 mt-3 text-center">Данные успешно сохранены.</Alert.Heading>
+                                                  </Alert>):null
+                                                }
                                                 <span className="d-flex justify-content-center m-4">
                                                     <button onClick={this.buttonLoginAndEmailHandler} type="button" className="btn btn-lg btn-primary">Coxpaнить</button>
                                                 </span>
@@ -256,7 +439,7 @@ class Settings extends React.Component {
                                 <div className="card mb-4">
                                     <div className="card-header" id="headingThree">
                                         <h5 className="mb-0">
-                                            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">Изменить номер телефона</button>
+                                            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">Редактировать номера телефонов</button>
                                         </h5>
                                     </div>
                                     <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
@@ -264,10 +447,10 @@ class Settings extends React.Component {
                                             <div className="form-group m-4">
                                                 <div className="form-group">
                                                     <div className="d-flex flex-column">
-            {this.state.phones ? this.state.phones.map(a =><div className="d-flex w-50" key={a.id} ><p>{a.phone}</p> <p className="cursor-pointer primary-color-for-text ml-3" onClick={()=>this.buttonRemovePhoneHandler(a.id)} name={a.id} > Удалить номер</p></div>) : null}
+                                                        {this.state.phones ? this.state.phones.map(a => <div className="d-flex w-50" key={a.id} ><p>{a.phone}</p> <p className="cursor-pointer primary-color-for-text ml-3" onClick={() => this.buttonRemovePhoneHandler(a.id)} name={a.id} > Удалить номер</p></div>) : null}
                                                     </div>
-                                                    <label htmlFor="inputSettingsPhone">Добавить телефон</label>
-                                                    <input onChange={this.editPhoneHandler.bind(this)} type="phone" className="form-control" id="inputSettingsPhone" placeholder="Another input placeholder" />
+                                                    <label htmlFor="inputSettingsPhone" className={this.state.warningPhone ? "inputWarning" : ""}>{this.state.warningPhone ? this.state.warningPhone : "Добавить телефон"}</label>
+                                                    <input onChange={this.editPhoneHandler.bind(this)} value={this.state.phoneNumber} type="phone" className="form-control" id="inputSettingsPhone" placeholder="Another input placeholder" />
                                                 </div>
                                                 <span className="d-flex justify-content-center m-4">
                                                     <button onClick={this.buttonEditPhoneHandler} type="button" className="btn btn-lg btn-primary">Coxpaнить</button>
@@ -286,7 +469,7 @@ class Settings extends React.Component {
                                         <div className="card-body">
                                             <div className="form-group m-4">
                                                 <div className="custom-file">
-                                                    {this.state.photo?<PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token}/> :null}
+                                                    {this.state.photo ? <PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token} /> : null}
                                                     {this.state.photo ? <img src={this.state.photo} className="img-thumbnail w-25" alt={this.state.profilePhoto} /> : null}
                                                     <input onChange={this.inputPhotoHandler.bind(this)} type="file" name="file" />
                                                 </div>

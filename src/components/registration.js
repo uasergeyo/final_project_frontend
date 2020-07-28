@@ -12,6 +12,7 @@ class Registration extends React.Component {
             passCopyInfo: '',
             passCompareSucess:false,
             passInputSucess:false,
+            errMsg:'',
         };
     }
 
@@ -43,13 +44,13 @@ class Registration extends React.Component {
         } else if (e.target.value.length<8) {
             this.setState({
                 passInputSucess:false,
-                // userPassword: e.target.value,
+                userPassword: e.target.value,
                 passwordInfo: "Короткий пароль. Минимум 8 символов."
             })
         } else if (e.target.value === e.target.value.toLowerCase()) {
             this.setState({
                 passInputSucess:false,
-                // userPassword: e.target.value,
+                userPassword: e.target.value,
                 passwordInfo: "В пароле должны быть заглавные и строчные символы."
             })
         }else if (e.target.value.match(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/)) {
@@ -75,16 +76,16 @@ class Registration extends React.Component {
     }
 
     onRegisterHandler = (e) => {
-        if (this.state.userEmail && this.state.userPassword && this.state.userPasswordRepeat){
+        if (this.validateEmail(this.state.userEmail) && this.validatePassword(this.state.userPassword) && this.state.userPasswordRepeat === this.state.userPassword){
             try {
                 this.props.onRegister(this.state.userEmail, this.state.userPassword)
-                    .then(() =>this.props.registrationResponse? window.location.replace('/profile/my_settings'):console.log("wrong++++++"))
+                    .then(() =>this.props.registrationResponse ? this.props.history.push('/profile/my_settings'):(this.props.badResponse?this.setState({errMsg:this.props.badResponse[0].message}):null))
                     .catch((e) => console.log(e))
             } catch (e) {
 
             }
-        } else {
-            console.log("++++++++++++ bug =+++++++++")
+        } else{
+            this.setState({errMsg:"Все поля должны быть заполнены"})
         }
 
 
@@ -94,6 +95,7 @@ class Registration extends React.Component {
         if (e.target.value ==="") {
             this.setState({ passCopyInfo: "",
                             passCompareSucess:false,
+                            userPasswordRepeat:e.target.value
         })
         } else if (this.state.userPassword === e.target.value) {
             this.setState({ passCompareSucess:true,
@@ -102,7 +104,8 @@ class Registration extends React.Component {
         })
         } else if(this.state.userPassword !== e.target.value) {
             this.setState({passCopyInfo:"Пароли должны быть одинаковые",
-                            passCompareSucess:false
+                            passCompareSucess:false,
+                            userPasswordRepeat:e.target.value
         })
         }
     }
@@ -125,16 +128,17 @@ class Registration extends React.Component {
         return (
             <div className="bg-light p-5 mb-5">
                 <div className="form_signin form-check">
-                    <p className={this.state.emailInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.emailInfo ? this.state.emailInfo : "Ваш email"}</p>
-                    <label htmlFor="inputEmail" className="sr-only"></label>
+                    <p className="inputWarning">{this.state.errMsg}</p>
+                    <label htmlFor="inputEmail" className={this.state.emailInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.emailInfo ? this.state.emailInfo : "Ваш email"}</label>
+                    {/* <label htmlFor="inputEmail" className="sr-only"></label> */}
                     {/* <small>{this.state.emailInfo}</small> */}
                     <input onChange={this.emailHandler.bind(this)} type="email" className="form-control mb-3" placeholder="Email" required autoFocus />
-                    <p className={this.state.passInputSucess?"inputSucess mb-1":this.state.passwordInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.passwordInfo ? this.state.passwordInfo : "Ваш пароль"}</p>
-                    <label htmlFor="inputPassword" className="sr-only"></label>
+                    <label htmlFor="inputPassword"  className={this.state.passInputSucess?"inputSucess mb-1":this.state.passwordInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.passwordInfo ? this.state.passwordInfo : "Ваш пароль"}</label>
+                    {/* <label htmlFor="inputPassword" className="sr-only"></label> */}
                     {/* <small>{this.state.passInfo}</small> */}
                     <input type="password" onChange={this.passwordHandler.bind(this)} className="form-control mb-3" placeholder="Пароль" required />
-                    <p className={this.state.passCompareSucess ?"inputSucess mb-1":this.state.passCopyInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.passCopyInfo ? this.state.passCopyInfo : "Повторите пароль"}</p>
-                    <label htmlFor="inputPassword" className="sr-only"></label>
+                    <label htmlFor="inputPasswordCopy" className={this.state.passCompareSucess ?"inputSucess mb-1":this.state.passCopyInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.passCopyInfo ? this.state.passCopyInfo : "Повторите пароль"}</label>
+                    {/* <label htmlFor="inputPassword" className="sr-only"></label> */}
                     {/* <small>{this.state.passCopyInfo}</small> */}
                     <input type="password" onChange={this.passwordRepeatHandler.bind(this)} className="form-control mb-3" placeholder="Пароль" required />
                     <div className="d-flex justify-content-between">

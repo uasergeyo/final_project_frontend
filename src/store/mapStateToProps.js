@@ -15,7 +15,9 @@ function mapStateToProps(component) {
 		case "Registration":{
 			return function (state){
 				return{
-					registrationResponse:d`${state}.promiseReducer.getUserInfo.payload.data.getUser.userEmail`,
+					// registrationResponse:d`${state}.promiseReducer.register.payload.data.createUser.id`,
+					registrationResponse:d`${state}.login.jwt_token`,
+					badResponse:d`${state}.promiseReducer.register.payload.errors`,
 					// emailHandler:d`${state}login.validators.emailHandler`
 				}
 			}
@@ -198,7 +200,10 @@ function mapStateToProps(component) {
 					updatedUserPhoto: d`${state}.promiseReducer.getUserPhoto.payload.data.getUserPhotos`,
 					deletedPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
 					addPhoto:d`${state}.promiseReducer.createUserPhoto.payload.data.createPhoto.id`,
-					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`
+					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`,
+					responseOnUpdateUserNameAndLocation:d`${state}.promiseReducer.updateUserNameAndCity.payload.data.updateUser`,
+					responseOnPassAndEmailChange:d`${state}.promiseReducer.updateUserLoginAndPassword.payload.data.updateUser.id`,
+					responseOnPassAndEmailError:d`${state}.promiseReducer.updateUserLoginAndPassword.payload.errors`,
 					
 
 				}

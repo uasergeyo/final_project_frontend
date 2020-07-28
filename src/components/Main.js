@@ -37,6 +37,7 @@ class Main extends React.Component {
                     <PrivateRoute path="/announcement-action-result/:id" component={AnnouncementActionResult} exact/>
         <Route path="/l_w" component={LinkForWarnings} exact/>
                     <Route path="/full-announcement-description/:id" component={FULL_ANNOUNCEMENT_W} exact/>
+                    <Route path="/advanced_search" component={MAIN_PAGE_W} exact/>
                     <Route path="/" component={MAIN_PAGE_W} exact/>
                     <Route component={NotFound} />
                 </Switch>

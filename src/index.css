@@ -182,3 +182,9 @@ a{
   color:green;
   font-size: 12px;
 }
+
+.necessaryInput:after{
+  content: " *";
+  color:red;
+  font-size: 12px;
+}
