@@ -50,7 +50,7 @@ class Select extends React.Component {
 
     requestAreaHandler = (e) => {
         if(e.target.value === "true"){
-            this.setState({areaId:''})
+            this.setState({areaId:'',cities: [],cityId: ''})
         }else{
         this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
         this.setState({ cityId: '' })
@@ -109,23 +109,23 @@ class Select extends React.Component {
     // search params
 
     updateCategory = (v) => {
-        this.setState({ categoryId: +v, subCategoryId: '' })
+        this.setState({ categoryId: v, subCategoryId: '' })
     }
 
     updateSubCategory = (v) => {
-        this.setState({ subCategoryId: +v })
+        this.setState({ subCategoryId: v })
     }
 
     updatePriceFrom = (v) => {
-        this.setState({ priceFrom: +v })
+        this.setState({ priceFrom: v })
     }
 
     updatePriceTo = (v) => {
-        this.setState({ priceTo: +v })
+        this.setState({ priceTo: v })
     }
 
     updateCurrency = (v) => {
-        this.setState({ currencyId: +v })
+        this.setState({ currencyId: v })
     }
 
     updateSort = (v) => {

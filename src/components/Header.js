@@ -37,7 +37,7 @@ class Header extends React.Component {
                                             <NavLink to="/favourite" key="favourite" onClick={this.linkAdressHandler.bind(this)} className="nav-link text-danger" id="favourite" >Избранное<span className="sr-only">(current)</span></NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink to="/profile" key="myProfile" onClick={this.linkAdressHandler.bind(this)} className="nav-link text-light" id="myProfile" >Мой профиль<span className="sr-only">(current)</span></NavLink>
+                                            <NavLink to="/profile/own_announcements" key="myProfile" onClick={this.linkAdressHandler.bind(this)} className="nav-link text-light" id="myProfile" >Мой профиль<span className="sr-only">(current)</span></NavLink>
                                         </li>
                                         <li className="nav-item d-flex justify-content-center">
                                             <button onClick={this.newAnnouncementHandler} className="btn btn-primary btn-outline-warning my-2 my-sm-0">Подать объявление</button>

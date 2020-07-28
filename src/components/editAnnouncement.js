@@ -1,6 +1,5 @@
 import React from 'react';
 import Loader from './loader'
-// import AlertMessage from './alert_message'
 import PHOTO_GALLERY_W from './wrappers/photo_gallery_w'
 
 class EditAnnouncement extends React.Component {
@@ -20,11 +19,8 @@ class EditAnnouncement extends React.Component {
             currencyId: '',
             hasDelivery: false,
             photo: '',
-            // isVisible: false,
             categoryName: '',
             subCategoryName: '',
-            // isOk:false,
-            // responseOnEdit:false,
             // -----------validators---
             announcementRejectionCause: '',
             headerInfo: '',

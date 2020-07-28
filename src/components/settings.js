@@ -40,9 +40,8 @@ class Settings extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.userInfo) {
-            this.setState({
-                areas: this.props.areas,
+       let obj={
+            areas: this.props.areas,
                 cityId: this.props.cityId ? this.props.cityId : '',
                 areaId: this.props.areaId ? this.props.areaId : '',
                 userName: this.props.userName ? this.props.userName : '',
@@ -51,34 +50,25 @@ class Settings extends React.Component {
                 areaName: this.props.areaName,
                 cityName: this.props.cityName,
                 photo: this.props.photo,
-            })
+        }
+        if (this.props.userInfo) {
+            this.setState({...obj })
         } else {
             this.props.onGetUserInfo({ id: this.props.userId, token: this.props.token })
-                .then(() => this.setState({
-                    areas: this.props.areas,
-                    cityId: this.props.cityId ? this.props.cityId : null,
-                    areaId: this.props.areaId ? this.props.areaId : null,
-                    userName: this.props.userInfo.userName ? this.props.userInfo.userName : '',
-                    userEmail: this.props.userInfo.userEmail,
-                    phones: this.props.phones,
-                    areaName: this.props.userInfo.area.areaName,
-                    cityName: this.props.userInfo.city.cityName,
-                    photo: this.props.photo
-
-                }))
+                .then(() => this.setState({...obj }))
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.deletedPhoto !== this.props.deletedPhoto) {
+        if (prevProps.deletedPhoto !== this.props.deletedPhoto ) {
             this.props.onGetAvatarPhoto({ userId: this.props.userId })
                 .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
         } else if (prevProps.addPhoto !== this.props.addPhoto) {
             this.props.onGetAvatarPhoto({ userId: this.props.userId })
-                .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
+                .then(() => this.setState({ photo: this.props.updatedUserPhoto}))
         } else if (prevProps.setMainPhoto !== this.props.setMainPhoto && this.props.setMainPhoto) {
-            console.log("prevProps.setMainPhoto !== this.props.setMainPhoto", prevProps.setMainPhoto, this.props.setMainPhoto)
-            this.setState({ photo: this.props.setMainPhoto })
+            this.props.onGetAvatarPhoto({ userId: this.props.userId })
+            .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
         } else if (prevProps.responseOnUpdateUserNameAndLocation !== this.props.responseOnUpdateUserNameAndLocation) {
             this.setState({ responseOnUpdateUserNameAndLocation: this.props.responseOnUpdateUserNameAndLocation })
         }else if(prevProps.responseOnPassAndEmailChange !== this.props.responseOnPassAndEmailChange && this.props.responseOnPassAndEmailChange){
@@ -311,12 +301,10 @@ class Settings extends React.Component {
             }))
         } else if(this.state.phones.map(a => a.phone).indexOf(this.state.phoneNumber) !== -1) {
             this.setState({
-                // phoneNumber: "+380",
                 warningPhone: "Этот номер уже добавлен"
             })
         }else if(!this.state.phoneNumber.match(/^\+[0-9]{12}$/)){
             this.setState({
-                // phoneNumber: "+380",
                 warningPhone: "Телефон должен быть формата +380*********"
             })
         }
@@ -337,12 +325,6 @@ class Settings extends React.Component {
 
     }
 
-    // buttonSavePhotoHandler = (e) => {
-    //     this.props.onGetAvatarPhoto({                
-    //             userId: this.props.userId
-    //            })
-    // }
-
     buttonRemoveProfileHandler = () => {
         this.props.onRemoveUser({
             token: this.props.token,
@@ -360,7 +342,7 @@ class Settings extends React.Component {
                                 <div className="card mb-4">
                                     <div className="card-header" id="headingOne">
                                         <h5 className="mb-0">
-                                            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Изменить контактные данные</button>
+                                            <button className="btn btn-link text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Изменить контактные данные</button>
                                         </h5>
                                     </div>
                                     <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -405,7 +387,7 @@ class Settings extends React.Component {
                                 <div className="card mb-4">
                                     <div className="card-header" id="headingTwo">
                                         <h5 className="mb-0">
-                                            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">Изменить данные для входа</button>
+                                            <button className="btn btn-link text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">Изменить логин и пароль</button>
                                         </h5>
                                     </div>
                                     <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
@@ -439,7 +421,7 @@ class Settings extends React.Component {
                                 <div className="card mb-4">
                                     <div className="card-header" id="headingThree">
                                         <h5 className="mb-0">
-                                            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">Редактировать номера телефонов</button>
+                                            <button className="btn btn-link text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">Редактировать номера телефонов</button>
                                         </h5>
                                     </div>
                                     <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
@@ -462,7 +444,7 @@ class Settings extends React.Component {
                                 <div className="card mb-4">
                                     <div className="card-header" id="headingFour">
                                         <h5 className="mb-0">
-                                            <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne">Добавить фото</button>
+                                            <button className="btn btn-link text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne">Добавить фото</button>
                                         </h5>
                                     </div>
                                     <div id="collapseFour" className="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
@@ -470,12 +452,8 @@ class Settings extends React.Component {
                                             <div className="form-group m-4">
                                                 <div className="custom-file">
                                                     {this.state.photo ? <PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token} /> : null}
-                                                    {this.state.photo ? <img src={this.state.photo} className="img-thumbnail w-25" alt={this.state.profilePhoto} /> : null}
                                                     <input onChange={this.inputPhotoHandler.bind(this)} type="file" name="file" />
                                                 </div>
-                                                {/* <span className="d-flex justify-content-center m-4">
-                                                    <button onClick={this.buttonSavePhotoHandler} type="button" className="btn btn-lg btn-primary">Coxpaнить</button>
-                                                </span> */}
                                             </div>
                                         </div>
                                     </div>
@@ -483,7 +461,7 @@ class Settings extends React.Component {
                                 <div className="card mb-4">
                                     <div className="card-header" id="headingFive">
                                         <h5 className="mb-0">
-                                            <button className="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">Удалить профайл</button>
+                                            <button className="btn btn-link collapsed text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">Удалить профайл</button>
                                         </h5>
                                     </div>
                                     <div id="collapseFive" className="collapse" aria-labelledby="heading" data-parent="#accordionExample">

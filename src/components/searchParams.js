@@ -40,14 +40,13 @@ class SearchParams extends React.Component {
         valueParentElement.forEach(i => {
             if (i[key] === value) {
                 this.setState({ [fieldNameInState]: i.id }, () => callback(this.state[fieldNameInState]))
-
             }
         })
     }
 
     selectCategoryHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ categoryId: '' })
+            this.setState({ categoryId: '',subCategories: [], subCategoryId: '' },()=>this.props.updateCategory(this.state.categoryId))
         } else {
             this.searcherIdForOption(e.target.value, "categoryName", "categoryId", this.state.categories, this.props.updateCategory);
             this.setState({ subCategoryId: '' })
@@ -61,7 +60,7 @@ class SearchParams extends React.Component {
 
     selectSubCategoryHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ subCategoryId: '' })
+            this.setState({ subCategoryId: '' },()=>this.props.updateSubCategory(this.state.subCategoryId))
         } else {
             this.searcherIdForOption(e.target.value, "subCategoryName", "subCategoryId", this.state.subCategories, this.props.updateSubCategory);
         }
@@ -77,14 +76,13 @@ class SearchParams extends React.Component {
 
     selectCurrencyHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ currencyId: '' })
+            this.setState({ currencyId: '' },()=>this.props.updateCurrency(this.state.currencyId))
         } else {
             this.searcherIdForOption(e.target.value, "currencySymbol", "currencyId", this.state.currencies, this.props.updateCurrency);
         }
     }
 
     selectSortBy = (e) => {
-        console.log("======>>>>>>", e.target.value)
         this.setState({ sort: e.target.value }, () => this.props.updateSort(this.state.sort))
     }
 

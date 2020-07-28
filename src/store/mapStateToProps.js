@@ -6,6 +6,7 @@ function mapStateToProps(component) {
 			return function (state) {
 				return {
 					token: d`${state}.login.jwt_token`,
+					logInErr: d`${state}.promiseReducer.login.payload.errors`,
 					user: state.login.userData,
 					animation: state.login.pending,
 					previousURL: state.redirectedFromLink.redirectedFrom 
@@ -15,10 +16,8 @@ function mapStateToProps(component) {
 		case "Registration":{
 			return function (state){
 				return{
-					// registrationResponse:d`${state}.promiseReducer.register.payload.data.createUser.id`,
 					registrationResponse:d`${state}.login.jwt_token`,
 					badResponse:d`${state}.promiseReducer.register.payload.errors`,
-					// emailHandler:d`${state}login.validators.emailHandler`
 				}
 			}
 		}
@@ -28,11 +27,10 @@ function mapStateToProps(component) {
 				return {                                                              
 					avatar: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.photos`,
 					userId: d`${state}.login.userData.id`,
-					// userId: d`${state}.promiseReducer.userData.id`,
 					token: d`${state}.login.jwt_token`,
-					// token: d`${state}.promiseReducer.jwt_token`,
 					user: d`${state}.promiseReducer.getUserInfo.payload.data.getUser`,
-					resAvaPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`
+					userName: d`${state}.promiseReducer.updateUserNameAndCity.payload.data.updateUser.userName`,
+					updatedUserPhoto: d`${state}.promiseReducer.getUserPhoto.payload.data.getUserPhotos`,					
 				};
 			}
 		};
@@ -77,8 +75,6 @@ function mapStateToProps(component) {
 					requestData:d`${state}.passRequestData.requestData`,
 					announcements: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.rows`,
 					count: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.count`,
-					// userId: d`${state}.promiseReducer.userData.id`,
-					// token: d`${state}.promiseReducer.jwt_token`,
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`,
@@ -97,27 +93,16 @@ function mapStateToProps(component) {
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					report: d`${state}.promiseReducer.createAnnouncement.payload.data.createAnnouncement.id`,
-					// token:    d`${state}.promiseReducer.jwt_token`,
-
-
-
-
-					// newPhoto:d`${state}.promiseReducer.createAnnouncementPhoto.payload.data.createPhoto.id`,
-					// updatedPhoto:d`${state}.promiseReducer.getAnnouncementPhotos.payload.data.getAnnouncement.photo`,
-					// isChangeInPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
 				}
 			}
 		};
 		case "Favourite": {
 			return function (state) {
 				return {
-					// userId: d`${state}.promiseReducer.userData.id`,
-					// token: d`${state}.promiseReducer.jwt_token`,
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}.promiseReducer.findFavourite.payload.data.getUser.favourite`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
-					// userLikes:d`${state}.promiseReducer.findFavourite.payload.data.getUser.favourite`
 				}
 			}
 		};
@@ -135,12 +120,9 @@ function mapStateToProps(component) {
 		case "AnnouncementCard": {
 			return function (state) {
 				return {
-					// token: d`${state}.promiseReducer.jwt_token`,
 					token: d`${state}.login.jwt_token`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
 					userId: d`${state}.login.userData.id`,
-					// userId: d`${state}.promiseReducer.userData.id`,
-					// userLikes:d`${state}.promiseReducer.userData`
 				}
 			}
 		}
@@ -148,7 +130,6 @@ function mapStateToProps(component) {
 		case "FullAnnouncement": {
 			return function (state) {
 				return {
-					// userId: d`${state}.promiseReducer.userData.id`,
 					userId: d`${state}.login.userData.id`,
 					announcement: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement`,
 					userName: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.userName`,
@@ -165,8 +146,6 @@ function mapStateToProps(component) {
 		case "OwnAnnouncements" :{
 			return function(state){
 				return {
-					// userId: d`${state}.promiseReducer.userData.id`,
-					// token: d`${state}.promiseReducer.jwt_token`,
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}promiseReducer.findOwn.payload.data.getUser.announcements`,
@@ -179,8 +158,6 @@ function mapStateToProps(component) {
 		case "Settings" :{
 			return function(state){
 				return {
-					// userId:   d`${state}.promiseReducer.userData.id`,
-					// token:    d`${state}.promiseReducer.jwt_token`,
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					userInfo: d`${state}.promiseReducer.getUserInfo.payload.data.getUser`,
@@ -213,12 +190,10 @@ function mapStateToProps(component) {
 		case "EditAnnouncement":{
 			return function(state){
 				return{
-					// token:    d`${state}.promiseReducer.jwt_token`,
 					token: d`${state}.login.jwt_token`,
 					announcement:d`${state}.promiseReducer.findAnnouncementForEdit.payload.data.getAnnouncement`,
 					categories: d`${state}.promiseReducer.findAnnouncementForEdit.payload.data.getCategories`,
 					currencies: d`${state}.promiseReducer.findAnnouncementForEdit.payload.data.getCurrencies`,
-					// userId:   d`${state}.promiseReducer.userData.id`,
 					userId: d`${state}.login.userData.id`,
 					responseOnEdit: d`${state}.promiseReducer.editAnnouncement.payload.data.editAnnouncement.id`,
 					updatedPhoto:d`${state}.promiseReducer.getAnnouncementPhotos.payload.data.getAnnouncement.photo`,

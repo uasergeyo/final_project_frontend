@@ -148,6 +148,12 @@ a{
 
 }
 
+.objectFit{
+  object-fit: cover;
+
+}
+
+
 .cursor-pointer{
   cursor: pointer;
 }

@@ -75,7 +75,7 @@ export {
 function actionLogin(userEmail, userPassword) {
     return async dispatch => {
         let token = await dispatch(actionLoginPromise(userEmail, userPassword))
-        if (token.data.logInAuth) {
+        if (d`${token}.data.logInAuth`) {
             return dispatch(actionToken(token.data.logInAuth.token))
         } else {
             console.log(token.errors[0].messages)

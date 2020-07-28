@@ -35,8 +35,6 @@ class FullAnnouncement extends React.Component {
                                         <h5>{this.props.area} {this.props.city}</h5>
                                         <p className="bg-warning pl-2 pr-2 rounded">{this.props.announcement.hasDelivery ? "Возможна доставка почтой" : "Без доставки почтой"}</p>
                                     </span>
-                                    {/* <h5>{this.props.announcement}{this.props.announcement.currency.currencySymbol}</h5>
-                            <p>{this.props.announcement.}</p> */}
                                 </div>
                                 <div className="mb-3">
                                 </div>
@@ -57,9 +55,6 @@ class FullAnnouncement extends React.Component {
                                             <a href={`tel:${a.phone}`}>{a.phone}</a>
                                         </li>) : null}
                                     </ul>
-                                    {/* <h3>{this.props.userName}</h3>
-                                    <h5>Телефоны</h5>
-                                    {this.props.phones ? this.props.phones.map(a => <p key={a.phone}>{a.phone}</p>) : null} */}
                                 </div>
                             </div>
                         </div>

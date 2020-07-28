@@ -36,7 +36,8 @@ function mapDispatchToProps(component) {
 	switch (component) {
 		case "LogIn": return function (dispatch) {
 			return {
-				onLogin: bindActionCreators(actionLogin, dispatch)
+				onLogin: bindActionCreators(actionLogin, dispatch),
+				onRedirect: bindActionCreators(wasRedirectedFrom,dispatch)
 			};
 		};
 		case "Profile": return function (dispatch) {

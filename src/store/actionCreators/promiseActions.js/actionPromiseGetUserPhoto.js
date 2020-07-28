@@ -9,6 +9,7 @@ export default function actionPromiseGetUserPhoto({ userId }) {
         id
         photoLink
         userId
+        isMain
       }
     }
     `, { userId})

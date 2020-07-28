@@ -76,7 +76,7 @@ class AnnouncementCard extends React.Component {
                         <span className="d-flex flex-column">
                             <p className="cityAndDate">{this.props.announcement.area.areaName} | {this.props.announcement.city.cityName}</p>
                         </span>
-                        {this.props.history.location.pathname === "/profile/my_announcements" ?
+                        {this.props.history.location.pathname === "/profile/own_announcements" ?
                             (+this.props.userId === +this.props.announcement.user.id ?
                                 <div className="d-flex justify-content-between">
                                     <NavLink className="cityAndDate card-link" to={`/edit-announcement/${this.props.identifier}`}>Редактировать</NavLink>
