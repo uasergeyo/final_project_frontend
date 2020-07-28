@@ -114,12 +114,8 @@ class EditAnnouncement extends React.Component {
     }
 
     selectCategoryHandler = (e) => {
-        // if (e.target.value === "true") {
-        //     this.setState({ categoryId: '' })
-        // } else {
         this.searcherIdForOptions(e.target.value, "categoryName", "categoryId", this.state.categories);
-        this.setState({ subCategoryId: '', subCategoryName: '' })
-        // }
+        this.setState({ subCategoryId: '', subCategoryName: 'Выберите подкатегорию' })
         this.state.categories.forEach(i => {
             if (i.categoryName === e.target.value) {
                 this.setState({ subCategories: i.subcategories })
@@ -201,16 +197,8 @@ class EditAnnouncement extends React.Component {
             obj.body.categoryId &&
             obj.body.subCategoryId) {
             this.props.onEditAnnouncement(obj)
-            //     .then(()=>{ this.setState({
-            //         isOk: this.props.report,
-            //         photo: []
-            //     });
-            //     // this.state.isOk?this.props.history.push(`/announcement-action-result/${123}`):null
-            //     console.log(this.props.report)
-
-            // })
         } else {
-            this.setState({ announcementRejectionCause: "Все поля помеченные звездочкой должны быть заполнены." })
+            this.setState({ announcementRejectionCause: "Все поля со звездочкой должны быть заполнены." })
         }
 
     }
@@ -219,17 +207,11 @@ class EditAnnouncement extends React.Component {
         this.setState({ isVisible: false })
     }
 
-    // removePhotoHandler = (e) =>{
-    //     this.props.onRemovePhoto({
-    //       id:e.target.name,
-    //       token:this.props.token  
-    //     })
-    // }
     render() {
         if (this.props.announcement && this.props.categories) {
             return (
-                <div className="container mb-5">
-                    <div className="row">
+                <div className="container mb-5 p-5 ">
+                    <div className="row mt-5">
                         <div className="col">
                             <div className="form-group">
                                 <label htmlFor="exampleInputEmail1" className="necessaryInput">Заголовок</label>
@@ -261,12 +243,6 @@ class EditAnnouncement extends React.Component {
                                 </div>
                             </div>
                             {this.state.photo ? <PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token} /> : null}
-                            {/* <div className="row">
-                            {this.state.photo ? this.state.photo.map(a =><span key={a.id} className="col col-lg-3 col-md-4 col-sm-6 d-flex flex-column justify-content-between">
-                                <img className="img-fluid img-thumbnail w-auto" src={a.photoLink}/>
-                                <button name={a.id} onClick = {this.removePhotoHandler.bind(this)}>Удалить</button>
-                            </span>) : null}
-                            </div> */}
                             <div className="d-flex mt-3 mb-3">
                                 <div className="col pl-0 col-lg-3">
                                     <label htmlFor="inputSelectCurrency" id="inputMaxPrice">Bалютa</label>
@@ -293,11 +269,8 @@ class EditAnnouncement extends React.Component {
                         {
                             this.state.announcementRejectionCause?<p className="inputWarning">{this.state.announcementRejectionCause}</p>:null
                         }
-                        {/* {
-                            this.props.responseOnEdit ? <AlertMessage click={this.changeVisibilityHandler} text={"Объявление " + this.props.responseOnEdit + " успешно изменено"} /> : null
-                        } */}
                     </div>
-                    <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Отправить объявление</button>
+                    <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Сохранить объявление</button>
                 </div>
             )
         } else {

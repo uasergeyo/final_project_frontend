@@ -13,6 +13,12 @@ export default function actionPromiseFindOneAnnouncement({ id }) {
                 id
                 userName
                 userEmail
+                city{
+                    cityName
+                }
+                area{
+                    areaName
+                }
                 phones{
                     phone
             }

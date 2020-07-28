@@ -75,7 +75,6 @@ function mapDispatchToProps(component) {
 		};
 		case "CreateAnnouncement":return function (dispatch){
 			return{
-				// onAddPhoto:bindActionCreators(actionAddPhoto,dispatch),
 				onAnnouncementParams:bindActionCreators(actionGetSearchParams,dispatch),
 				onCreateAnnouncement:bindActionCreators(actionCreateAnnouncement,dispatch)
 			}

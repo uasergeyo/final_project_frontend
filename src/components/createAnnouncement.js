@@ -1,9 +1,6 @@
 import React from 'react';
 import Loader from './loader'
-import AlertMessage from './alert_message'
 import Slider from './slider'
-// import PHOTO_GALLERY_W from './wrappers/photo_gallery_w'
-
 
 class CreateAnnouncement extends React.Component {
     constructor(props) {
@@ -25,8 +22,7 @@ class CreateAnnouncement extends React.Component {
             currencyId: '',
             hasDelivery: false,
             photo: [],
-            // isVisible: false,
-
+            redirect:false,
             //-----------------------validators
             announcementRejectionCause:'',
             headerInfo: '',
@@ -36,6 +32,7 @@ class CreateAnnouncement extends React.Component {
             priceInfo:'',
             priceWarning:false,
         }
+
     }
 
     componentDidMount() {
@@ -58,16 +55,9 @@ class CreateAnnouncement extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.report !== this.props.report && this.props.report) {
-            this.props.history.push(`/announcement-action-result/${this.props.report}`)
+            this.setState({redirect:true})
+            // this.props.history.push(`/announcement-action-result/${this.props.report}`)
         }
-        // if(prevProps.isChangeInPhoto !== this.props.isChangeInPhoto){
-        //     this.props.onFindAnnouncementPhotos({ id: this.props.announcement.id })
-        //     .then(()=>this.setState({ photo:this.props.updatedPhoto}))
-        // }else if(prevProps.newPhoto !== this.props.newPhoto){          
-        //     this.props.onFindAnnouncementPhotos({ id: this.props.announcement.id })
-        //     .then(()=>this.setState({ photo:this.props.updatedPhoto}))
-        // }
-
     }
 
     requestHeaderHandler = (e) => {
@@ -118,7 +108,7 @@ class CreateAnnouncement extends React.Component {
 
     requestAreaHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ areaId: '' })
+            this.setState({ areaId: '',cityId:'',cities:[] })
         } else {
             this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
             this.setState({ cityId: '' })
@@ -142,7 +132,7 @@ class CreateAnnouncement extends React.Component {
 
     selectCategoryHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ categoryId: '' })
+            this.setState({ categoryId: '',subCategoryId:'',subCategories:[] })
         } else {
             this.searcherIdForOptions(e.target.value, "categoryName", "categoryId", this.state.categories);
             this.setState({ subCategoryId: '' })
@@ -179,7 +169,6 @@ class CreateAnnouncement extends React.Component {
     }
 
     selectCurrencyHandler = (e) => {
-        console.log("currency", e.target.value)
         this.searcherIdForOptions(e.target.value, "currencySymbol", "currencyId", this.state.currencies);
     }
 
@@ -192,18 +181,6 @@ class CreateAnnouncement extends React.Component {
         arr.push("http://localhost:4000/announcements" + photoName)
         this.setState({ photo: arr })
     }
-
-    // inputPhotoHandler = async (e) => {
-    //     let photoName = "/" + await (await fetch('http://localhost:4000/upload/announcements', {
-    //         method: "POST",
-    //         body: e.target.files[0]
-    //     })).text()
-    //     this.props.onAddPhoto({
-    //         token:this.props.token,
-    //         announcementId: this.props.announcement.id,
-    //         photoLink:`http://localhost:4000/announcements${photoName}`
-    //     })
-    // }
 
     checkHasDeliveryHandler = (e) => {
         this.setState({ hasDelivery: e.target.checked })
@@ -236,11 +213,6 @@ class CreateAnnouncement extends React.Component {
             token: this.props.token
         }
 
-
-        // if (!obj.body.currencyId) {
-        //     obj.body.currencyId = 1
-        // }
-
         if(  obj.body.announcementHeader &&
              obj.body.announcementText && 
              obj.body.announcementPrice>=0 && 
@@ -249,26 +221,22 @@ class CreateAnnouncement extends React.Component {
              obj.body.categoryId && 
              obj.body.subCategoryId){
         this.props.onCreateAnnouncement(obj)
-            .then(res => this.setState({
+            .then(() => this.setState({
                 isVisible: this.props.report,
                 photo: [],
-                announcementRejectionCause:"",
-            }))
+                announcementRejectionCause:"", 
+        },()=>this.state.redirect ? this.props.history.push(`/announcement-action-result/${this.props.report}`):null))
         }else{
             this.setState({announcementRejectionCause:"Все поля помеченные звездочкой должны быть заполнены."})
         }
 
     }
 
-    // changeVisibilityHandler = () => {
-    //     this.setState({ isVisible: false })
-    // }
-
     render() {
         if (this.props.data) {
             return (
-                <div className="container mb-5">
-                    <div className="row">
+                <div className="container mb-5 p-5">
+                    <div className="row mb-5">
                         <div className="col">
                             <div className="form-group">
                                 <label htmlFor="exampleInputEmail1" className="necessaryInput">Заголовок</label>

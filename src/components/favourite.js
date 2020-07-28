@@ -39,7 +39,7 @@ class Favourite extends React.Component {
   render() {
     if (this.state.announcements && this.state.favourite) {
       return (
-        <div className="bg-light p-5 mb-5 min-vw-100 min-vh-100">
+        <div className={this.state.announcements.length ?"bg-light p-5 mb-5":"bg-light p-5 mb-5 min-vw-100 min-vh-100 "}>
           <div className="container mt-5">
             <h2 className="text-center mb-5 ">Избранные объявления</h2>
             <div className="row d-flex ">
@@ -52,10 +52,9 @@ class Favourite extends React.Component {
                       history={this.props.history}
                       userLikes={this.state.favourite}
                     />) : null) :
-                  <div className="d-flex flex-column mx-auto justify-content-around" >
+                  <div className="d-flex flex-column mx-auto justify-content-around " >
                     <h3 className="text-center mt-5 mb-5">Пока нет ничего в избранных</h3>
                     <NavLink to="/" className="btn btn-outline-primary w-75 mb-3 mx-auto">Перейти на главную</NavLink>
-                    {/* <NavLink to="/" className="btn btn-outline-warning w-75 mb-3 mx-auto">Перейти на главную</NavLink> */}
                     <NavLink to="/create_announcement" className="btn btn-outline-warning w-75 mb-3 mx-auto">Подать объявление</NavLink>
                   </div>
               }

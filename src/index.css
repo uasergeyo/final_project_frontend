@@ -194,3 +194,11 @@ a{
   color:red;
   font-size: 12px;
 }
+
+.currentLink{
+  color:orange;
+}
+
+.currentLink:hover { 
+  color:orange !important; 
+}

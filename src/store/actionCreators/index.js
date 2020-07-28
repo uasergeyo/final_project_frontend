@@ -1,7 +1,6 @@
 import { TOKEN, LOGOUT, REDIRECTED_AS_UNREGISTERED, PASS_REQUEST_DATA } from '../actions';
 import store from '../store'
 import actionPromise from './actionPromise'
-// import {getGQL} from "../../gql"
 import { d } from '../../helpers'
 import {
     actionPromiseSearch,
@@ -91,7 +90,7 @@ function actionRegister(userEmail, userPassword) {
                 await dispatch(actionLogin(userEmail, userPassword))
             } catch (e) {
                 console.log("actionRegister", e)
-                if (store.getState().login.jwt_token) window.location.replace("/profile/my_settings")
+                if (store.getState().login.jwt_token) window.location.replace("/profile/own_settings")
             }
         } else {
             if (d`${user}.errors`) {
@@ -256,6 +255,7 @@ function actionSetMainPhoto(data) {
 
 function actionLogout() {
     // state.promiseReducer.jwt_token
+    // localStorage.removeItem('jwt_token')
     return {
         type: LOGOUT,
         jwt_token: null

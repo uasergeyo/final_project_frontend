@@ -139,6 +139,8 @@ function mapStateToProps(component) {
 					area: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.area.areaName`,
 					city: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.city.cityName`,
 					photo: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.photo`,
+					uCity: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.city.cityName`,
+					uArea: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.area.areaName`,
 				}
 			}
 		};

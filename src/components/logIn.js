@@ -63,7 +63,7 @@ class LogIn extends React.Component {
   render() {
 
     return (
-      <div className="bg-light mb-5 p-5">
+      <div className="bg-light mb-5 p-5 min-vw-100 min-vh-100">
         <div className="form_signin form-check">
           <p className="inputWarning">{this.state.loginWarning}</p>
           <p className="mb-3 text-muted">Ваш email</p>

@@ -88,18 +88,18 @@ class Settings extends React.Component {
         } else {
             this.setState({
                 userName: "",
-                warningName: "И́я (др.-греч. Ἰάς — «иониянка») — женское русское личное имя греческого происхождения"
+                warningName: "Самое аороткое имя - И́я (др.-греч. Ἰάς — «иониянка») — женское русское личное имя греческого происхождения"
             })
         }
     }
 
     editAreaHandler = (e) => {
-        // if (e.target.value === "true") {
-        //     this.setState({ areaId: '' })
-        // } else {
+        if (e.target.value === "true") {
+            this.setState({ areaId: '',cities:[],cityId:'' })
+        } else {
         this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
         this.setState({ cityId: '', cityName: '' })
-        // }
+        }
         this.props.areas.forEach(element => {
             if (element.areaName === e.target.value) {
                 this.setState({
@@ -141,7 +141,9 @@ class Settings extends React.Component {
                     }
                 }))
         } else {
-            this.setState({ warningUpdateUserNameAndLocation: "Все поля должны быть заполнены соответствующим образом" })
+            this.setState({ warningUpdateUserNameAndLocation: "Все поля должны быть заполнены соответствующим образом",
+                            responseOnUpdateUserNameAndLocation:false
+        })
         }
         // responseOnUpdateUserNameAndLocation
     }

@@ -53,16 +53,17 @@ class AnnouncementsField extends React.Component {
       return (
         <div className="bg-light mb-5 pt-5 pb-5">
           <div className="container mb-5 mx-auto">
-            <div className="row row-cols-1 row-cols-md-3">
-              {this.props.announcements ? this.props.announcements.map(a => {
+            <div className="row ">
+            {/* <div className="row row-cols-1 row-cols-md-3 "> */}
+              {this.props.announcements.length ? this.props.announcements.map(a => {
                 let identifier = a.id;
                 return <ANNOUNCEMENT_CARD_W history={this.props.history}
                   key={a.id} announcement={a}
                   identifier={identifier}
-                  // userLikes={this.state.favourite.map(a => a.announcement ? a.announcement.id : null)} />
                   userLikes={this.state.favourite} />
-              }) : null}
-              {/* {this.props.announcements.payload.data.searchAnnouncements.map(a => <AnnouncementCard key={a.id} announcement={a} />)} */}
+              }) : <div className = "m-5 p-5 d-flex justify-content-center w-100">
+                <h3 className = "text-center">По вашему запросу ничего не найдено</h3>
+                </div>}
             </div>
           </div>
           <Pagination className="w-100 d-flex justify-content-center">

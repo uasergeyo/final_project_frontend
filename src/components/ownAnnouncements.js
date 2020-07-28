@@ -29,11 +29,9 @@ class OwnAnnouncements extends React.Component {
 
 
     render() {
-        console.log(this.props.announcements && this.props.favourite)
         if (this.props.announcements && this.props.favourite) {
-            console.log("YES YES", this.props.announcements && this.props.favourite)
             return (
-                <div>
+                <>
                     {
                         this.props.announcements.length ? this.props.announcements.map(a => {
                             return <ANNOUNCEMENT_CARD_W key={a.id}
@@ -42,14 +40,13 @@ class OwnAnnouncements extends React.Component {
                                 history={this.props.history}
                                 userLikes={this.state.favourite}
                             />
-                        }) : <div className="d-flex flex-column mx-auto justify-content-around" >
+                        }) : <div className="d-flex flex-column mx-auto justify-content-around"  >
                                 <h3 className="text-center mt-5 mb-5">Нет объявлений</h3>
-                                <NavLink to="/" className="btn btn-outline-primary w-25 mb-3 mx-auto">Перейти на главную</NavLink>
-                                {/* <NavLink to="/" className="btn btn-outline-warning w-75 mb-3 mx-auto">Перейти на главную</NavLink> */}
-                                <NavLink to="/create_announcement" className="btn btn-outline-warning w-25 mb-3 mx-auto">Подать объявление</NavLink>
+                                <NavLink to="/" className="btn btn-outline-primary mb-3 mx-auto">Перейти на главную</NavLink>
+                                <NavLink to="/create_announcement" className="btn btn-outline-warning mb-3 mx-auto">Подать объявление</NavLink>
                             </div>
                     }
-                </div>
+                </>
             )
         } else {
             return <Loader />

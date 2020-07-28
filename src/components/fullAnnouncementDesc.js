@@ -13,7 +13,7 @@ class FullAnnouncement extends React.Component {
 
     componentDidMount() {
         this.props.onFindOneAnnouncement({ id: this.props.match.params.id })
-            .then(() => { this.props.avatar.map(a => a.isMain ? this.setState({ avatar: a.photoLink }) : null); console.log("dsdssdsdsd", this.props.avatar) })
+            .then(() =>  this.props.avatar.map(a => a.isMain ? this.setState({ avatar: a.photoLink }) : null))
     }
 
     render() {
@@ -24,7 +24,8 @@ class FullAnnouncement extends React.Component {
                         <div className="col col-lg-8">
                             <div className="card p-5">
                                 <div className="mb-3 m-auto">
-                                    {this.props.photo.length ? <Slider images={this.props.announcement.photo.map(a => a.photoLink)} /> : <img className="img-fluid" src="http://localhost:4000/content/info/photo-default-slider.png" alt="..." />}
+                                    {this.props.photo.length ? <Slider images={this.props.announcement.photo.map(a => a.photoLink)} /> :
+                                                 <img className="img-fluid" src="http://localhost:4000/content/info/photo-default-slider.png" alt="..." />}
                                 </div>
                                 <div className="card-body">
                                     <h2>{this.props.announcement.announcementHeader}</h2>
@@ -42,18 +43,21 @@ class FullAnnouncement extends React.Component {
                         </div>
                         <div className="col col-lg-4">
                             <div className="card pt-5">
-                                <img className="w-50 rounded-circle m-auto" src={this.state.avatar ? this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} alt={this.state.avatar ? this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} />
+                                <img className="w-50 rounded-circle m-auto" src={this.state.avatar ?
+                                                this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} alt={this.state.avatar ?
+                                                this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} />
                                 <div className="card-body">
-                                    <div class="card-header">
+                                    <div className="card-header">
                                         <h3>{this.props.userName}</h3>
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Email</li>
-                                        <li class="list-group-item"><a href={`mailto:${this.props.email}`}>{this.props.email}</a></li>
-                                        <li class="list-group-item">Teлефоны</li>
-                                        {this.props.phones ? this.props.phones.map(a => <li class="list-group-item" key={a.phone}>
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">Email</li>
+                                        <li className="list-group-item"><a href={`mailto:${this.props.email}`}>{this.props.email}</a></li>
+                                        <li className="list-group-item">Teлефоны</li>
+                                        {this.props.phones ? this.props.phones.map(a => <li className="list-group-item" key={a.phone}>
                                             <a href={`tel:${a.phone}`}>{a.phone}</a>
                                         </li>) : null}
+                                        {this.props.uArea?<li className="list-group-item">{this.props.uArea} {this.props.uCity}</li>:null}
                                     </ul>
                                 </div>
                             </div>
