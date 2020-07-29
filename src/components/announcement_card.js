@@ -8,15 +8,22 @@ class AnnouncementCard extends React.Component {
         super(props);
         this.state = {
             isLike: false,
-            avatar:''
+            avatar: '',
+            isRemoved: false
         }
     }
 
-    componentDidMount() {  
+    componentDidMount() {
         if (this.props.userLikes.indexOf(this.props.identifier) > -1) {
             this.setState({ isLike: true })
         }
-         this.props.announcement.photo.map(a=>a.isMain ? this.setState({avatar:a.photoLink}):null)
+        this.props.announcement.photo.map(a => a.isMain ? this.setState({ avatar: a.photoLink }) : null)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.responseRemoveAnnouncement !== this.props.responseRemoveAnnouncement && this.props.responseRemoveAnnouncement === this.props.identifier) {
+            this.setState({ isRemoved: true })
+        }
     }
 
     createLikeHandler = (e) => {
@@ -30,7 +37,7 @@ class AnnouncementCard extends React.Component {
                     }
                 })
         } else {
-           this.props.history.push("/login")
+            this.props.history.push("/login")
         }
     }
 
@@ -40,7 +47,7 @@ class AnnouncementCard extends React.Component {
             body: {
                 userId: this.props.userId,
                 id: this.props.identifier,
-                isDisabled: true
+                isDisabled: true,
             }
         })
     }
@@ -51,20 +58,21 @@ class AnnouncementCard extends React.Component {
 
     render() {
         return (
-            <div className="col col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div className="card h-100 p-2">
+            <div className="col col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                <div className={this.state.isRemoved ?"card h-100 p-2 removedAnnouncement":"card h-100 p-2"}>
                     <div>
                         {
                             <img src={this.state.avatar ?
-                                this.state.avatar :(this.props.announcement.photo && this.props.announcement.photo[0] 
-                                && this.props.announcement.photo[0].photoLink) || "http://localhost:4000/content/info/notFound.jpg"
+                                this.state.avatar : (this.props.announcement.photo && this.props.announcement.photo[0]
+                                    && this.props.announcement.photo[0].photoLink) || "http://localhost:4000/content/info/notFound.jpg"
                             } onClick={this.fullAnnouncementHandler}
                                 className="w-100 cursor-pointer card-img-top cardImg img-fluid" alt="..." />
                         }
                         <div className="w-auto overflow-hidden" style={{ height: "52px" }}>
-                            <h5 className="card-title cursor-pointer cardHeaderAnnouncement text-left" alt={this.props.announcement.announcementHeader} onClick={this.fullAnnouncementHandler}>
-                                {this.props.announcement.announcementHeader ? 
-                            (this.props.announcement.announcementHeader.length>=55?this.props.announcement.announcementHeader.slice(0,55)+'.....':this.props.announcement.announcementHeader ): ""}</h5>
+                            <h5 className="card-title cursor-pointer cardHeaderAnnouncement text-left" onClick={this.fullAnnouncementHandler}>
+                                {this.state.isRemoved ? "Объявление удалено" : this.props.announcement.announcementHeader ?
+                                    (this.props.announcement.announcementHeader.length >= 55 ? this.props.announcement.announcementHeader.slice(0, 55) + '.....' : this.props.announcement.announcementHeader) : ""}
+                            </h5>
                         </div>
                     </div>
                     <div className="m-2">
@@ -94,7 +102,7 @@ class AnnouncementCard extends React.Component {
                             <OverlayTrigger
                                 placement="top"
                                 delay={{ show: 250, hide: 400 }}
-                                overlay={<Tooltip>{ this.props.token  ? (this.state.isLike ?"Удалить из избранных":"В избранные"):"Необходима авторизация"}</Tooltip>}>
+                                overlay={<Tooltip>{this.props.token ? (this.state.isLike ? "Удалить из избранных" : "В избранные") : "Необходима авторизация"}</Tooltip>}>
                                 <img className="cursor-pointer" src={this.state.isLike ? "http://localhost:4000/content/likers/like.png" : "http://localhost:4000/content/likers/not-like.png"} onClick={this.createLikeHandler.bind(this)} alt="..." />
                             </OverlayTrigger>
                         </div>

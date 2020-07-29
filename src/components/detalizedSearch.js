@@ -1,7 +1,6 @@
 import React from 'react';
 import SearchParams from './searchParams'
 import { GraphQLClient } from 'graphql-request'
-import { Switch } from 'react-router-dom';
 import Select from './select';
 import Announcements_field from './announcements_field';
 import SearchParams from './searchParams';

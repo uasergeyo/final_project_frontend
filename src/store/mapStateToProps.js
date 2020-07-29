@@ -123,6 +123,7 @@ function mapStateToProps(component) {
 					token: d`${state}.login.jwt_token`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
 					userId: d`${state}.login.userData.id`,
+					responseRemoveAnnouncement: d`${state}.promiseReducer.removeAnnouncement.payload.data.editAnnouncement.id`,
 				}
 			}
 		}
@@ -151,7 +152,6 @@ function mapStateToProps(component) {
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}promiseReducer.findOwn.payload.data.getUser.announcements`,
-					responseRemoveAnnouncement: d`${state}.promiseReducer.removeAnnouncement.payload.data`,
 					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`,
 				}
 			}
@@ -203,6 +203,14 @@ function mapStateToProps(component) {
 					newPhoto:d`${state}.promiseReducer.createAnnouncementPhoto.payload.data.createPhoto.id`,
 					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`,
 
+				}
+			}
+		};
+
+		case "Categories":{
+			return function(state){
+				return{
+					fullCategories:d`${state}promiseReducer.categoriesFullDesc.payload.data.getCategories`
 				}
 			}
 		}

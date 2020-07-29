@@ -27,6 +27,7 @@ import { actionLogin,
 		 actionCreateUserPhoto,
 		 actionFindLikes,
 		 actionSetMainPhoto,
+		 actionGetFullCategories,
 
 
 
@@ -139,6 +140,13 @@ function mapDispatchToProps(component) {
 				onRemovePhoto: bindActionCreators(actionRemovePhoto,dispatch),
 				onAddPhoto: bindActionCreators(actionCreatePhotoForAnnouncement,dispatch),
 				onSetMainPhoto:bindActionCreators(actionSetMainPhoto,dispatch),
+			}
+		};
+
+		case "Categories":return function (dispatch){
+			return{
+				onGetFullCategories:bindActionCreators(actionGetFullCategories,dispatch),
+				onSearch:bindActionCreators(actionSearch,dispatch),
 			}
 		}
 		

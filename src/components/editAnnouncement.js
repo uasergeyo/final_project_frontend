@@ -138,6 +138,12 @@ class EditAnnouncement extends React.Component {
                 priceInfo: "Цена не может быть отрицательной.",
                 priceWarning: true,
             })
+        } else if (e.target.value > 9999999) {
+            this.setState({
+                price: "",
+                priceInfo: "Максимальная цена - 9999999.",
+                priceWarning: true,
+            })
         } else {
             this.setState({
                 announcementPrice: +e.target.value,
@@ -213,19 +219,19 @@ class EditAnnouncement extends React.Component {
                 <div className="container mb-5 p-5 ">
                     <div className="row mt-5">
                         <div className="col">
-                            <div className="form-group">
+                            <div className="form-group pl-3 pr-3">
                                 <label htmlFor="exampleInputEmail1" className="necessaryInput">Заголовок</label>
                                 <p className={this.state.headerWarning ? "inputWarning" : "inputSucess "}>{this.state.headerInfo}</p>
                                 <input onChange={this.requestHeaderHandler.bind(this)} value={this.state.announcementHeader} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                                 {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
                             </div>
-                            <div className="form-group">
+                            <div className="form-group pl-3 pr-3">
                                 <label htmlFor="exampleFormControlTextarea1" className="necessaryInput">Подробное описание объявления</label>
                                 <p className={this.state.descriptionWarning ? "inputWarning" : "inputSucess "}>{this.state.descriptionInfo}</p>
-                                <textarea onChange={this.inputDescriptionHandler.bind(this)} style={{height:"300px",width:"100%"}} value={this.state.announcementText} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <textarea onChange={this.inputDescriptionHandler.bind(this)} style={{ height: "300px", width: "100%" }} value={this.state.announcementText} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                             </div>
-                            <div className="d-flex " >
-                                <div className="col pl-0 col-lg-6">
+                            <div className="d-flex flex-wrap" >
+                                <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="selectCategory" className="necessaryInput">Категория</label>
                                     <select onChange={this.selectCategoryHandler.bind(this)} className="form-control" id="selectCategory">
                                         <option value>{this.state.categoryName}</option>
@@ -233,7 +239,7 @@ class EditAnnouncement extends React.Component {
 
                                     </select>
                                 </div>
-                                <div className="col pr-0 col-lg-6">
+                                <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="selectSubcategory" className="necessaryInput">Подкатегория</label>
                                     <select onChange={this.selectSubCategoryHandler.bind(this)} className="form-control" id="selectSubcategory">
                                         <option value>{this.state.subCategoryName}</option>
@@ -243,34 +249,37 @@ class EditAnnouncement extends React.Component {
                                 </div>
                             </div>
                             {this.state.photo ? <PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token} /> : null}
-                            <div className="d-flex mt-3 mb-3">
-                                <div className="col pl-0 col-lg-3">
+                            <div className="d-flex mt-3 mb-3 flex-wrap">
+                                <div className="col col-lg-3 col-sm-12 col-12">
                                     <label htmlFor="inputSelectCurrency" id="inputMaxPrice">Bалютa</label>
                                     <select className="form-control" onChange={this.selectCurrencyHandler.bind(this)} id="inputSelectCurrency">
                                         <option key={this.state.currencyId} value>{this.state.currencySymbol}</option>
                                         {this.state.currencies ? this.state.currencies.map(a => a.currencySymbol !== this.state.currencySymbol ? <option key={a.id}>{a.currencySymbol}</option> : null) : null}
                                     </select>
                                 </div>
-                                <div className="col pl-0 col-lg-3 ml-3">
-                                    <label htmlFor="price pl-0" className={this.state.priceWarning ? "inputWarning " : "necessaryInput"}>{this.state.priceInfo ? this.state.priceInfo : "Цена"}</label>
+                                <div className="col col-lg-3 col-sm-12 col-12">
+                                    <label htmlFor="price " className={this.state.priceWarning ? "inputWarning " : "necessaryInput"}>{this.state.priceInfo ? this.state.priceInfo : "Цена"}</label>
                                     <input className="form-control" value={+this.state.announcementPrice} onChange={this.inputPriceHandler} min="0" max="9999999999" type="number" id="inputMinPrice" placeholder="от" />
                                 </div>
-                                <div className="custom-control custom-checkbox mr-3 col col-lg-3 mt-5">
+                                <div className="custom-control custom-checkbox col col-lg-3 col-sm-6 col-12 mt-5">
                                     <input type="checkbox" checked={this.state.hasDelivery} onChange={this.checkHasDeliveryHandler.bind(this)} className="custom-control-input" id="ck1" />
                                     <label className="custom-control-label" htmlFor="ck1">Доставка почтой</label>
                                 </div>
-                                <div className="mt-5">
-                                    <input type="file" name="file" onChange={this.inputPhotoHandler.bind(this)} />
+                                <div className="col col-lg-3 col-sm-6 col-12 d-flex flex-column justify-space-between">
+                                    <label htmlFor="photoInpEdit">Добавить фото</label>
+                                    <input type="file" name="file" id="photoInpEdit" onChange={this.inputPhotoHandler.bind(this)} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
                         {
-                            this.state.announcementRejectionCause?<p className="inputWarning">{this.state.announcementRejectionCause}</p>:null
+                            this.state.announcementRejectionCause ? <p className="inputWarning">{this.state.announcementRejectionCause}</p> : null
                         }
                     </div>
-                    <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Сохранить объявление</button>
+                    <div className="pl-3 pr-3">
+                        <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Сохранить объявление</button>
+                    </div>
                 </div>
             )
         } else {

@@ -24,6 +24,7 @@ import actionPromiseCreatePhotoForAnnouncement from './actionPromiseCreatePhotoF
 import actionPromiseCreateUserPhoto from './actionPromiseCreateUserPhoto'
 import actionPromiseFindLikes from './actionPromiseFindLikes'
 import actionPromiseSetPhotoAsMain from './actionPromiseSetPhotoAsMain'
+import actionPromiseGetFullCategories from './actionPromiseGetFullCategories'
 
 export {
     actionLoginPromise,
@@ -52,6 +53,7 @@ export {
     actionPromiseCreateUserPhoto,
     actionPromiseFindLikes,
     actionPromiseSetPhotoAsMain,
+    actionPromiseGetFullCategories,
     
 
 }

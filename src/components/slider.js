@@ -16,13 +16,14 @@ class Slider extends React.Component {
     render() {
         if(this.state.images.length>0 ){
         return (
-            <Carousel className="mt-3 mb-3">
+            <Carousel className="mt-3 mb-3 border border-primary mw-100" style={{maxWidth:"520px"}}>
                 {
                 this.state.images.map((a,index) => {
                         return (
                             <Carousel.Item key={index+1}>
                                 <img 
-                                    className="d-block w-100"
+                                    className="d-block d-flex flex-grow-0 flex-shrink-0" 
+                                    // style={{width:"320px",height:"320px", objectFit:"cover"}}
                                     src={a}
                                     alt={a}
                                 />

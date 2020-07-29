@@ -20,14 +20,6 @@ class OwnAnnouncements extends React.Component {
 
     }
 
-    componentDidUpdate(prevState) {
-        if (prevState.responseRemoveAnnouncement !== this.props.responseRemoveAnnouncement) {
-            this.props.onFindOwnAnnouncements({ id: this.props.userId, token: this.props.token })
-        }
-    }
-
-
-
     render() {
         if (this.props.announcements && this.props.favourite) {
             return (

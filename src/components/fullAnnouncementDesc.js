@@ -53,7 +53,7 @@ class FullAnnouncement extends React.Component {
                                     <ul className="list-group list-group-flush">
                                         <li className="list-group-item">Email</li>
                                         <li className="list-group-item"><a href={`mailto:${this.props.email}`}>{this.props.email}</a></li>
-                                        <li className="list-group-item">Teлефоны</li>
+                                        {this.props.phones.length ?<li className="list-group-item">Teлефоны</li>:null}
                                         {this.props.phones ? this.props.phones.map(a => <li className="list-group-item" key={a.phone}>
                                             <a href={`tel:${a.phone}`}>{a.phone}</a>
                                         </li>) : null}

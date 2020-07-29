@@ -28,7 +28,8 @@ import {
     actionPromiseCreatePhotoForAnnouncement,
     actionPromiseCreateUserPhoto,
     actionPromiseFindLikes,
-    actionPromiseSetPhotoAsMain
+    actionPromiseSetPhotoAsMain,
+    actionPromiseGetFullCategories
 
 
 
@@ -67,6 +68,7 @@ export {
     actionCreateUserPhoto,
     actionFindLikes,
     actionSetMainPhoto,
+    actionGetFullCategories
 }
 
 
@@ -250,6 +252,12 @@ function actionFindLikes(data) {
 function actionSetMainPhoto(data) {
     return async dispatch => {
         return await dispatch(actionPromiseSetPhotoAsMain(data))
+    }
+}
+
+function actionGetFullCategories(){
+    return async dispatch => {
+        return await dispatch(actionPromiseGetFullCategories())
     }
 }
 

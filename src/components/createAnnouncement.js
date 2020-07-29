@@ -22,15 +22,15 @@ class CreateAnnouncement extends React.Component {
             currencyId: '',
             hasDelivery: false,
             photo: [],
-            redirect:false,
+            redirect: false,
             //-----------------------validators
-            announcementRejectionCause:'',
+            announcementRejectionCause: '',
             headerInfo: '',
             headerWarning: false,
             descriptionInfo: '',
-            descriptionWarning:false,
-            priceInfo:'',
-            priceWarning:false,
+            descriptionWarning: false,
+            priceInfo: '',
+            priceWarning: false,
         }
 
     }
@@ -55,7 +55,7 @@ class CreateAnnouncement extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.report !== this.props.report && this.props.report) {
-            this.setState({redirect:true})
+            this.setState({ redirect: true })
             // this.props.history.push(`/announcement-action-result/${this.props.report}`)
         }
     }
@@ -108,7 +108,7 @@ class CreateAnnouncement extends React.Component {
 
     requestAreaHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ areaId: '',cityId:'',cities:[] })
+            this.setState({ areaId: '', cityId: '', cities: [] })
         } else {
             this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
             this.setState({ cityId: '' })
@@ -132,7 +132,7 @@ class CreateAnnouncement extends React.Component {
 
     selectCategoryHandler = (e) => {
         if (e.target.value === "true") {
-            this.setState({ categoryId: '',subCategoryId:'',subCategories:[] })
+            this.setState({ categoryId: '', subCategoryId: '', subCategories: [] })
         } else {
             this.searcherIdForOptions(e.target.value, "categoryName", "categoryId", this.state.categories);
             this.setState({ subCategoryId: '' })
@@ -153,18 +153,24 @@ class CreateAnnouncement extends React.Component {
     }
 
     inputPriceHandler = (e) => {
-        if(e.target.value < 0){
+        if (e.target.value < 0) {
             this.setState({
                 price: '',
-                priceInfo:"Цена не может быть отрицательной.",
-                priceWarning:true,
-             })
-        }else{
+                priceInfo: "Цена не может быть отрицательной.",
+                priceWarning: true,
+            })
+        } else if (e.target.value > 9999999) {
+            this.setState({
+                price: "",
+                priceInfo: "Максимальная цена - 9999999.",
+                priceWarning: true,
+            })
+        } else {
             this.setState({
                 price: +e.target.value,
-                priceInfo:"",
-                priceWarning:false,
-             })
+                priceInfo: "",
+                priceWarning: false,
+            })
         }
     }
 
@@ -205,7 +211,7 @@ class CreateAnnouncement extends React.Component {
                 userId: this.props.userId,
                 areaId: this.state.areaId,
                 cityId: this.state.cityId,
-                currencyId: this.state.currencyId?this.state.currencyId:1,
+                currencyId: this.state.currencyId ? this.state.currencyId : 1,
                 categoryId: this.state.categoryId,
                 subCategoryId: this.state.subCategoryId,
                 photoLink: this.state.photo
@@ -213,21 +219,21 @@ class CreateAnnouncement extends React.Component {
             token: this.props.token
         }
 
-        if(  obj.body.announcementHeader &&
-             obj.body.announcementText && 
-             obj.body.announcementPrice>=0 && 
-             obj.body.areaId &&
-             obj.body.cityId &&
-             obj.body.categoryId && 
-             obj.body.subCategoryId){
-        this.props.onCreateAnnouncement(obj)
-            .then(() => this.setState({
-                isVisible: this.props.report,
-                photo: [],
-                announcementRejectionCause:"", 
-        },()=>this.state.redirect ? this.props.history.push(`/announcement-action-result/${this.props.report}`):null))
-        }else{
-            this.setState({announcementRejectionCause:"Все поля помеченные звездочкой должны быть заполнены."})
+        if (obj.body.announcementHeader &&
+            obj.body.announcementText &&
+            obj.body.announcementPrice >= 0 &&
+            obj.body.areaId &&
+            obj.body.cityId &&
+            obj.body.categoryId &&
+            obj.body.subCategoryId) {
+            this.props.onCreateAnnouncement(obj)
+                .then(() => this.setState({
+                    isVisible: this.props.report,
+                    photo: [],
+                    announcementRejectionCause: "",
+                }, () => this.state.redirect ? this.props.history.push(`/announcement-action-result/${this.props.report}`) : null))
+        } else {
+            this.setState({ announcementRejectionCause: "Все поля помеченные звездочкой должны быть заполнены." })
         }
 
     }
@@ -238,19 +244,19 @@ class CreateAnnouncement extends React.Component {
                 <div className="container mb-5 p-5">
                     <div className="row mb-5">
                         <div className="col">
-                            <div className="form-group">
+                            <div className="form-group pl-3 pr-3">
                                 <label htmlFor="exampleInputEmail1" className="necessaryInput">Заголовок</label>
                                 <p className={this.state.headerWarning ? "inputWarning" : "inputSucess "}>{this.state.headerInfo}</p>
                                 <input onChange={this.requestHeaderHandler.bind(this)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                                 {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
                             </div>
-                            <div className="form-group">
+                            <div className="form-group pl-3 pr-3">
                                 <label htmlFor="exampleFormControlTextarea1" className="necessaryInput">Подробное описание объявления</label>
                                 <p className={this.state.descriptionWarning ? "inputWarning" : "inputSucess "}>{this.state.descriptionInfo}</p>
-                                <textarea onChange={this.inputDescriptionHandler.bind(this)} className="form-control" style={{height:"300px",width:"100%"}} id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <textarea onChange={this.inputDescriptionHandler.bind(this)} className="form-control" style={{ height: "300px", width: "100%" }} id="exampleFormControlTextarea1" rows="3"></textarea>
                             </div>
-                            <div className="d-flex " >
-                                <div className="col pl-0 col-lg-6">
+                            <div className="d-flex flex-wrap" >
+                                <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="selectCategory" className="necessaryInput">Категория</label>
                                     <select onChange={this.selectCategoryHandler.bind(this)} className="form-control" id="selectCategory">
                                         <option value>Все</option>
@@ -258,7 +264,7 @@ class CreateAnnouncement extends React.Component {
 
                                     </select>
                                 </div>
-                                <div className="col pr-0 col-lg-6">
+                                <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="selectSubcategory" className="necessaryInput">Подкатегория</label>
                                     <select onChange={this.selectSubCategoryHandler.bind(this)} className="form-control" id="selectSubcategory">
                                         <option value>Все</option>
@@ -266,15 +272,15 @@ class CreateAnnouncement extends React.Component {
                                     </select>
                                 </div>
                             </div>
-                            <div className="d-flex mt-3">
-                                <div className="col pr-0 col-lg-6 pl-0 pr-3">
+                            <div className="d-flex mt-3 flex-wrap">
+                                <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="inputArea" className="necessaryInput">Выберите область</label>
                                     <select onChange={this.requestAreaHandler.bind(this)} className="form-control " id="inputArea">
                                         <option value>Выберите область</option>
                                         {this.state.areas ? this.state.areas.map(a => <option id={a.id} key={a.id}>{a.areaName}</option>) : null}
                                     </select>
                                 </div>
-                                <div className="col pr-0 col-lg-6">
+                                <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="inputCity" className="necessaryInput">Выберите город</label>
                                     <select onChange={this.requestCityHandler.bind(this)} className="form-control" id="inputCity">
                                         <option value>Выберите город</option>
@@ -283,36 +289,37 @@ class CreateAnnouncement extends React.Component {
                                 </div>
                             </div>
                             {this.state.photo ? <div className="w-50 m-auto p-3 border-"><Slider images={this.state.photo} /></div> : null}
-                            {/* {this.state.photo?<PHOTO_GALLERY_W photo={this.state.photo} token={this.props.token}/> :null} */}
-
-                            <div className="d-flex mt-3 mb-3">
-                                <div className="col pl-0 col-lg-3">
+                            <div className="d-flex mt-3 mb-3 flex-wrap">
+                                <div className="col col-lg-3 col-sm-12 col-12">
                                     <label htmlFor="inputSelectCurrency" id="inputMaxPrice">Bалютa</label>
                                     <select className="form-control" onChange={this.selectCurrencyHandler.bind(this)} id="inputSelectCurrency">
                                         {this.state.currencies ? this.state.currencies.map(a => <option key={a.id}>{a.currencySymbol}</option>) : null}
                                     </select>
                                 </div>
-                                <div className="col pl-0 col-lg-3 ml-3">
-                                    <label htmlFor="price pl-0" className={this.state.priceWarning?"inputWarning ":"necessaryInput"}>{this.state.priceInfo?this.state.priceInfo:"Цена"}</label>
-                                    <input className="form-control" onChange={this.inputPriceHandler} min="0" max="9999999999" type="number" id="inputMinPrice" placeholder="от" />
+                                <div className="col col-lg-3 col-sm-12 col-12">
+                                    <label htmlFor="price pl-0" className={this.state.priceWarning ? "inputWarning " : "necessaryInput"}>{this.state.priceInfo ? this.state.priceInfo : "Цена"}</label>
+                                    <input className="form-control" onChange={this.inputPriceHandler} min="0" max="9999999" type="number" id="inputMinPrice" placeholder="от" />
                                 </div>
-                                <div className="custom-control custom-checkbox mr-3 col col-lg-3 mt-5">
+                                <div className="custom-control custom-checkbox col col-lg-3 col-sm-6 col-12 mt-5">
                                     <input type="checkbox" onChange={this.checkHasDeliveryHandler.bind(this)} className="custom-control-input" id="ck1" />
                                     <label className="custom-control-label" htmlFor="ck1">Доставка почтой</label>
                                 </div>
-                                <div className="mt-5">
-                                    <input type="file" name="file" onChange={this.inputPhotoHandler.bind(this)} />
+                                <div className="col col-lg-3 col-sm-6 col-12 d-flex flex-column justify-space-between">
+                                    <label htmlFor="photoInpCreate">Добавить фото</label>
+                                    <input type="file" name="file" id="photoInpCreate" onChange={this.inputPhotoHandler.bind(this)} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
                         {
-                        this.state.announcementRejectionCause?<p className="inputWarning">{this.state.announcementRejectionCause}</p>:null
-                        //  this.state.isVisible ? <AlertMessage click={this.changeVisibilityHandler} text={"Объявление " + this.props.report + " успешно добавлено"} /> : null
+                            this.state.announcementRejectionCause ? <p className="inputWarning">{this.state.announcementRejectionCause}</p> : null
+                            //  this.state.isVisible ? <AlertMessage click={this.changeVisibilityHandler} text={"Объявление " + this.props.report + " успешно добавлено"} /> : null
                         }
                     </div>
-                    <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Отправить объявление</button>
+                    <div className="pl-3 pr-3">
+                        <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Отправить объявление</button>
+                    </div>
                 </div>
             )
         } else {

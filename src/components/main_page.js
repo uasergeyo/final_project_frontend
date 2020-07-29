@@ -1,6 +1,6 @@
 import React from 'react';
 import SELECT_W from './wrappers/select_w';
-import Categories from './categories';
+import CATEGORIES_W from './wrappers/categories_w';
 import ANNOUNCEMENTS_FIELD_W from './wrappers/announcements_field_w';
 
 
@@ -16,7 +16,7 @@ class Main_page extends React.Component {
         return (
             <div>
                 <SELECT_W categoriesDisplayHandler={this.categoriesDisplayHandler} history={this.props.history} />
-                {this.props.location.pathname === "/" ? <Categories /> : null}
+                {this.props.location.pathname === "/" ? <CATEGORIES_W /> : null}
                 <ANNOUNCEMENTS_FIELD_W 
                 history={this.props.history}
                 // announcements={this.props.announcements}

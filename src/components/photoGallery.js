@@ -59,7 +59,8 @@ class PhotoGallery extends React.Component {
         if (this.props.photo) {
             return (
                 <div className="row m-3">
-                    {this.props.photo ? this.props.photo.map(a => <span key={a.id} className="col col-lg-3 col-md-4 col-sm-6 d-flex flex-column justify-content-between">
+                    {this.props.photo ? this.props.photo.map(a => <span key={a.id} 
+                    className="col col-lg-3 col-md-4 col-sm-6 col-12 d-flex flex-column justify-content-between">
                         <img className={a.isMain ? "border border-primary img-fluid img-thumbnail w-100 cardImg" : "img-fluid img-thumbnail w-100 cardImg"} src={a.photoLink} alt="..." />
                         <span className="d-flex justify-content-between">
                             <p className="cityAndDate cursor-pointer primary-color-for-text" onClick={() => this.removePhotoHandler(a.id)}>Удалить</p>

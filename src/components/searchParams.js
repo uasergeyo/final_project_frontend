@@ -100,56 +100,55 @@ class SearchParams extends React.Component {
         if (this.props.data) {
             return (
                 <div className="input-group input-group-lg mt-3 ">
-                    <div className="col pl-0 col-lg-3">
+                    <div className="col pl-0 col-lg-3 col-md-6 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-3 pr-sm-0 pr-0">
                         <label htmlFor="inputSelectCategory">Категория</label>
                         <select onChange={this.selectCategoryHandler.bind(this)} className="form-control" id="inputSelectCategory">
                             <option value>Все</option>
                             {this.state.categories ? this.state.categories.map(a => <option key={a.id}>{a.categoryName}</option>) : null}
                         </select>
                     </div>
-                    <div className="col pl-0 col-lg-3">
+                    <div className="col pl-0 col-lg-3 col-md-6 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-0 pr-sm-0 pr-0">
                         <label htmlFor="inputSelectSubcategory">Подкатегория</label>
                         <select onChange={this.selectSubCategoryHandler.bind(this)} className="form-control" id="inputSelectSubcategory">
                             <option value>Все</option>
                             {this.state.subCategories ? this.state.subCategories.map(a => <option key={a.id}>{a.subCategoryName}</option>) : null}
                         </select>
                     </div>
-                    <div className="col pl-0 col-lg-2 ml-3">
+                    <div className="col col-lg-2 col-md-6 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-3 pr-sm-0 pr-0">
                         <label htmlFor="inputsPrice pl-0">Цена</label>
                         <div className="row" id="inputsPrice">
                             <div className="col pl-0">
                                 <input className="form-control" onChange={this.inputPriceMinHandler.bind(this)} type="number" min="0" max="9999999999" id="inputMinPrice" placeholder="от" />
                             </div>
                             <div className="col pl-0 ">
-                                {/* <label for="inputMaxPrice" ></label> */}
                                 <input className="form-control" onChange={this.inputPriceMaxHandler.bind(this)} type="number" min="0" max="9999999999" id="inputMaxPrice" placeholder="до" />
                             </div>
                         </div>
                     </div>
-                    <div className="col pl-0 col-lg-1">
+                    <div className="col pl-0 col-lg-1 ">
                         <label htmlFor="inputSelectCurrency" id="inputMaxPrice">Bалютa</label>
                         <select className="form-control" onChange={this.selectCurrencyHandler.bind(this)} id="inputSelectCurrency">
                             <option value>Валюта</option>
                             {this.state.currencies ? this.state.currencies.map(a => <option key={a.id}>{a.currencySymbol}</option>) : null}
                         </select>
                     </div>
-                    <div className="col pl-0 col-lg-2">
+                    <div className="col pl-0 col-lg-2 pr-0">
                         <label htmlFor="inputSelectSortingType" id="inputMaxPrice">Cортировать по</label>
                         <select className="form-control" onChange={this.selectSortBy.bind(this)} id="inputSelectSortingType">
                             <option value="">Новые</option>
                             <option value="1">Дешевые</option>
                         </select>
                     </div>
-                    <div className="input-group input-group-lg mt-3">
-                        <div className="custom-control custom-checkbox mr-3">
+                    <div className="input-group input-group-lg mt-3 ">
+                        <div className="custom-control custom-checkbox col col-lg-2 col-md-2 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-3 pr-sm-0 pr-0">
                             <input type="checkbox" onChange={this.checkHasPhotoHandler.bind(this)} className="custom-control-input" id="Ck1" />
                             <label className="custom-control-label" htmlFor="Ck1">С фото</label>
                         </div>
-                        <div className="custom-control custom-checkbox mr-3">
+                        <div className="custom-control custom-checkbox col col-lg-2 col-md-3 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-3 pr-sm-0 pr-0">
                             <input type="checkbox" onChange={this.checkHasDeliveryHandler.bind(this)} className="custom-control-input" id="ck1" />
                             <label className="custom-control-label" htmlFor="ck1">C доставкой</label>
                         </div>
-                        <div className="custom-control custom-checkbox mr-3">
+                        <div className="custom-control custom-checkbox col col-lg-4 col-md-5 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-3 pr-sm-0 pr-0">
                             <input type="checkbox" onChange={this.checkFindEverywhereHandler.bind(this)} className="custom-control-input" id="ctomCheck1" />
                             <label className="custom-control-label" htmlFor="ctomCheck1">Поиск в заголовке и в описании</label>
                         </div>

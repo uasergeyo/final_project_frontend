@@ -153,17 +153,23 @@ class Select extends React.Component {
                     <div className="row">
                         <div className="col">
                             <div className="input-group input-group-lg ">
-                                <input type="text" onChange={this.requestTextHandler} className="form-control" placeholder="Введите текст запроса" aria-label="Recipient's username" aria-describedby="button-addon2" />
-                                <select onChange={this.requestAreaHandler.bind(this)} className="form-control " id="inputSelectArea">
+                                <div className="input-group input-group-lg col mb-lg-0 col-lg-5 mb-md-3 col-md-12 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
+                                <input type="text" onChange={this.requestTextHandler} className="form-control rounded-0" placeholder="Введите текст запроса" aria-label="Recipient's username" aria-describedby="button-addon2" />
+                                </div>
+                                <div className="input-group input-group-lg col mb-lg-0 col-lg-3 mb-md-3 col-md-5 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
+                                <select onChange={this.requestAreaHandler.bind(this)} className="form-control rounded-0" id="inputSelectArea">
                                     <option value>Выберите область</option>
                                     {this.props.areas?this.props.areas.map(a => <option id={a.id} key={a.id}>{a.areaName}</option>):null}
                                 </select>
-                                <select onChange={this.requestCityHandler.bind(this)} className="form-control" id="inputSelectCity">
+                                </div>
+                                <div className="input-group input-group-lg col mb-lg-0 col-lg-3 mb-md-3 col-md-5 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
+                                <select onChange={this.requestCityHandler.bind(this)} className="form-control rounded-0" id="inputSelectCity">
                                     <option value>Выберите город</option>
                                     {this.state.cities?this.state.cities.map(a => <option key={a.id}>{a.cityName}</option>):null}
                                 </select>
-                                <div className="input-group-append">
-                                    <button onClick={this.searchRequestHandler} className="btn btn-outline-secondary bg-primary" type="button" id="button-addon2">Поиск</button>
+                                </div>
+                                <div className="input-group-append col mb-lg-0 col-lg-1 mb-md-3 col-md-2 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
+                                    <button onClick={this.searchRequestHandler} className="w-100 btn btn-outline-secondary bg-primary rounded-0" type="button" id="button-addon2">Поиск</button>
                                 </div>
                                 <Switch>
                                     <Route render={() => <SEARCH_PARAMS_W updateCategory={this.updateCategory}
