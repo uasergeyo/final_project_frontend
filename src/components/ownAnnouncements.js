@@ -14,11 +14,12 @@ class OwnAnnouncements extends React.Component {
 
     componentDidMount() {
         this.props.onSearchLikes({ id: this.props.userId, token: this.props.token })
-            .then(() => this.setState({ favourite: this.props.favourite.map(a => a.announcement ? a.announcement.id : null) }))
+            .then(() =>this.props.favourite ? this.setState({ favourite: this.props.favourite.map(a => a.announcement ? a.announcement.id : null) }):null)
         this.props.onFindOwnAnnouncements({ id: this.props.userId, token: this.props.token })
             .then(() => this.setState({ announcements: this.props.announcements }))
 
     }
+
 
     render() {
         if (this.props.announcements && this.props.favourite) {

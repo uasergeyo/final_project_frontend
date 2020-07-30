@@ -18,10 +18,7 @@ class Main_page extends React.Component {
                 <SELECT_W categoriesDisplayHandler={this.categoriesDisplayHandler} history={this.props.history} />
                 {this.props.location.pathname === "/" ? <CATEGORIES_W /> : null}
                 <ANNOUNCEMENTS_FIELD_W 
-                history={this.props.history}
-                // announcements={this.props.announcements}
-                // count={this.props.count}  
-                />
+                history={this.props.history}/>
             </div>
         )
     }

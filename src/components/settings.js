@@ -33,49 +33,52 @@ class Settings extends React.Component {
             passCompareSucess: false,
             passCopyInfo: "",
             userPasswordRepeat: "",
-            wrongPassOrEmail:"",
-            isDataChangeSuccess:false,
+            wrongPassOrEmail: "",
+            isDataChangeSuccess: false,
+
 
         }
     }
 
     componentDidMount() {
-       let obj={
+        let obj = {
             areas: this.props.areas,
-                cityId: this.props.cityId ? this.props.cityId : '',
-                areaId: this.props.areaId ? this.props.areaId : '',
-                userName: this.props.userName ? this.props.userName : '',
-                userEmail: this.props.userInfo.userEmail,
-                phones: this.props.phones,
-                areaName: this.props.areaName,
-                cityName: this.props.cityName,
-                photo: this.props.photo,
+            cityId: this.props.cityId ? this.props.cityId : '',
+            areaId: this.props.areaId ? this.props.areaId : '',
+            userName: this.props.userName ? this.props.userName : '',
+            userEmail: this.props.userInfo.userEmail,
+            phones: this.props.phones,
+            areaName: this.props.areaName,
+            cityName: this.props.cityName,
+            photo: this.props.photo,
+            cities: this.props.areaId ? this.props.areas.filter(a => a.id === this.props.areaId)[0].cities : []
         }
+
         if (this.props.userInfo) {
-            this.setState({...obj })
+            this.setState({ ...obj })
         } else {
             this.props.onGetUserInfo({ id: this.props.userId, token: this.props.token })
-                .then(() => this.setState({...obj }))
+                .then(() => this.setState({ ...obj }))
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.deletedPhoto !== this.props.deletedPhoto ) {
+        if (prevProps.deletedPhoto !== this.props.deletedPhoto) {
             this.props.onGetAvatarPhoto({ userId: this.props.userId })
                 .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
         } else if (prevProps.addPhoto !== this.props.addPhoto) {
             this.props.onGetAvatarPhoto({ userId: this.props.userId })
-                .then(() => this.setState({ photo: this.props.updatedUserPhoto}))
+                .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
         } else if (prevProps.setMainPhoto !== this.props.setMainPhoto && this.props.setMainPhoto) {
             this.props.onGetAvatarPhoto({ userId: this.props.userId })
-            .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
+                .then(() => this.setState({ photo: this.props.updatedUserPhoto }))
         } else if (prevProps.responseOnUpdateUserNameAndLocation !== this.props.responseOnUpdateUserNameAndLocation) {
             this.setState({ responseOnUpdateUserNameAndLocation: this.props.responseOnUpdateUserNameAndLocation })
-        }else if(prevProps.responseOnPassAndEmailChange !== this.props.responseOnPassAndEmailChange && this.props.responseOnPassAndEmailChange){
-            this.setState({isDataChangeSuccess:true})
-        }else if(prevProps.responseOnPassAndEmailError !== this.props.responseOnPassAndEmailError &&this.props.responseOnPassAndEmailError && this.props.responseOnPassAndEmailError[0]){
-            this.setState({wrongPassOrEmail:this.props.responseOnPassAndEmailError[0].message})
-            
+        } else if (prevProps.responseOnPassAndEmailChange !== this.props.responseOnPassAndEmailChange && this.props.responseOnPassAndEmailChange) {
+            this.setState({ isDataChangeSuccess: true })
+        } else if (prevProps.responseOnPassAndEmailError !== this.props.responseOnPassAndEmailError && this.props.responseOnPassAndEmailError && this.props.responseOnPassAndEmailError[0]) {
+            this.setState({ wrongPassOrEmail: this.props.responseOnPassAndEmailError[0].message })
+
         }
     }
 
@@ -88,41 +91,22 @@ class Settings extends React.Component {
         } else {
             this.setState({
                 userName: "",
-                warningName: "Самое аороткое имя - И́я (др.-греч. Ἰάς — «иониянка») — женское русское личное имя греческого происхождения"
+                warningName: "Самое короткое имя - И́я (др.-греч. Ἰάς — «иониянка») — женское русское личное имя греческого происхождения"
             })
         }
     }
 
     editAreaHandler = (e) => {
-        if (e.target.value === "true") {
-            this.setState({ areaId: '',cities:[],cityId:'' })
-        } else {
-        this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
-        this.setState({ cityId: '', cityName: '' })
-        }
-        this.props.areas.forEach(element => {
-            if (element.areaName === e.target.value) {
-                this.setState({
-                    cities: element.cities
-                })
-            }
-        });
+        this.setState({ areaId: e.target.value, cityId: '', cityName: "Выберите город" })
+        this.props.areas.map(element => element.id === e.target.value ?this.setState({cities: element.cities}):null);
     }
 
     editCityHandler = (e) => {
-        if (e.target.value === "true") {
+        if (!e.target.value) {
             this.setState({ cityId: '' })
         } else {
-            this.searcherIdForOptions(e.target.value, "cityName", "cityId", this.state.cities)
+            this.setState({ cityId: e.target.value })
         }
-    }
-
-    searcherIdForOptions(value, key, fieldNameInState, valueParentElement) {
-        valueParentElement.forEach(i => {
-            if (i[key] === value) {
-                this.setState({ [fieldNameInState]: i.id })
-            }
-        })
     }
 
     buttonContactDataHandler = () => {
@@ -141,11 +125,11 @@ class Settings extends React.Component {
                     }
                 }))
         } else {
-            this.setState({ warningUpdateUserNameAndLocation: "Все поля должны быть заполнены соответствующим образом",
-                            responseOnUpdateUserNameAndLocation:false
-        })
+            this.setState({
+                warningUpdateUserNameAndLocation: "Все поля должны быть заполнены соответствующим образом",
+                responseOnUpdateUserNameAndLocation: false
+            })
         }
-        // responseOnUpdateUserNameAndLocation
     }
 
     editEmailHandler = (e) => {
@@ -243,25 +227,27 @@ class Settings extends React.Component {
             //     }
             // })
             this.setState({
-                wrongPassOrEmail:"",
-                isDataChangeSuccess:false,
-            },()=>this.props.onUpdateUserLoginAndPassword({
+                wrongPassOrEmail: "",
+                isDataChangeSuccess: false,
+            }, () => this.props.onUpdateUserLoginAndPassword({
                 token: this.props.token,
                 data: {
                     id: this.props.userId,
                     userEmail: this.state.userEmail,
                     userPassword: this.state.userPassword
                 }
-            }).then(()=>this.setState({ userPassword:"",
-                                        userPasswordRepeat:"",
-                                        passwordInfo: "",
-                                        passCopyInfo:"",passInputSucess:"",
-                                        passCompareSucess:""}))
+            }).then(() => this.setState({
+                userPassword: "",
+                userPasswordRepeat: "",
+                passwordInfo: "",
+                passCopyInfo: "", passInputSucess: "",
+                passCompareSucess: ""
+            }))
             )
         } else {
             this.setState({
-                wrongPassOrEmail:"Все поля должны быть заполнены соответствующими значениями.",
-                isDataChangeSuccess:false
+                wrongPassOrEmail: "Все поля должны быть заполнены соответствующими значениями.",
+                isDataChangeSuccess: false
             })
         }
     }
@@ -301,11 +287,11 @@ class Settings extends React.Component {
                 warningPhone: "",
                 phoneNumber: "+380"
             }))
-        } else if(this.state.phones.map(a => a.phone).indexOf(this.state.phoneNumber) !== -1) {
+        } else if (this.state.phones.map(a => a.phone).indexOf(this.state.phoneNumber) !== -1) {
             this.setState({
                 warningPhone: "Этот номер уже добавлен"
             })
-        }else if(!this.state.phoneNumber.match(/^\+[0-9]{12}$/)){
+        } else if (!this.state.phoneNumber.match(/^\+[0-9]{12}$/)) {
             this.setState({
                 warningPhone: "Телефон должен быть формата +380*********"
             })
@@ -320,7 +306,7 @@ class Settings extends React.Component {
         this.props.onAddAvatar({
             token: this.props.token,
             data: {
-                photoLink: `http://localhost:4000/users${photoName}`,
+                photoLink: `/users${photoName}`,
                 userId: this.props.userId,
             }
         })
@@ -350,7 +336,8 @@ class Settings extends React.Component {
                                     <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                         <div className="card-body">
                                             {
-                                                this.state.warningUpdateUserNameAndLocation ? <p className="inputWarning">{this.state.warningUpdateUserNameAndLocation}</p> : null
+                                                this.state.warningUpdateUserNameAndLocation ?
+                                                    <p className="inputWarning">{this.state.warningUpdateUserNameAndLocation}</p> : null
                                             }
                                             <div className="form-group m-4">
                                                 <div className="form-group">
@@ -361,15 +348,15 @@ class Settings extends React.Component {
                                                     <div className="col pr-0 col-lg-6 pl-0 pr-3">
                                                         <label htmlFor="editInputArea">Выберите область</label>
                                                         <select onChange={this.editAreaHandler.bind(this)} className="form-control " id="editInputArea">
-                                                            <option value>{this.state.areaName}</option>
-                                                            {this.props.areas ? this.props.areas.map(a => a.areaName !== this.state.areaName ? <option id={a.id} key={a.id}>{a.areaName}</option> : null) : null}
+                                                            <option value={this.state.areaId ?this.state.areaId:''}>{this.state.areaName ? this.state.areaName :"Выберите область"}</option>
+                                                            {this.state.areas ? this.state.areas.map(a => a.areaName !== this.state.areaName ? <option value={a.id} key={a.id}>{a.areaName}</option> : null) : null}
                                                         </select>
                                                     </div>
                                                     <div className="col pr-0 col-lg-6">
                                                         <label htmlFor="editInputCity">Выберите город</label>
                                                         <select onChange={this.editCityHandler.bind(this)} className="form-control" id="editInputCity">
-                                                            <option value>{this.state.cityName}</option>
-                                                            {this.state.cities ? this.state.cities.map(a => a.cityName !== this.state.cityName ? <option key={a.id}>{a.cityName}</option> : null) : null}
+                                                            <option value={this.state.cityId ? this.state.cityId : ""}>{this.state.cityName ? this.state.cityName : "Выберите город" }</option>
+                                                            {this.state.cities ? this.state.cities.map(a => a.cityName !== this.state.cityName ? <option key={a.id} value={a.id}>{a.cityName}</option> : null) : null}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -395,7 +382,7 @@ class Settings extends React.Component {
                                     <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                         <div className="card-body">
                                             <div className="form-group m-4">
-                                            <p className="inputWarning">{this.state.wrongPassOrEmail}</p>
+                                                <p className="inputWarning">{this.state.wrongPassOrEmail}</p>
                                                 <div className="form-group">
                                                     <label htmlFor="inputSettingsEmail" className={this.state.emailInfo ? "inputWarning mb-1" : "mb-1 text-muted"}>{this.state.emailInfo ? this.state.emailInfo : "Сменить email"}</label>
                                                     <input onChange={this.editEmailHandler.bind(this)} defaultValue={this.state.userEmail} type="email" className="form-control" id="inputSettingsEmail" placeholder="Another input placeholder" />
@@ -409,9 +396,9 @@ class Settings extends React.Component {
                                                     <input type="password" onChange={this.passwordRepeatHandler.bind(this)} value={this.state.userPasswordRepeat} className="form-control" id="finputSettingsPasswordRepeat" placeholder="Another input placeholder" />
                                                 </div>
                                                 {
-                                                    this.state.isDataChangeSuccess?( <Alert variant="success" onClose={() => this.setState({isDataChangeSuccess:false})} dismissible>
-                                                    <Alert.Heading className="mb-3 mt-3 text-center">Данные успешно сохранены.</Alert.Heading>
-                                                  </Alert>):null
+                                                    this.state.isDataChangeSuccess ? (<Alert variant="success" onClose={() => this.setState({ isDataChangeSuccess: false })} dismissible>
+                                                        <Alert.Heading className="mb-3 mt-3 text-center">Данные успешно сохранены.</Alert.Heading>
+                                                    </Alert>) : null
                                                 }
                                                 <span className="d-flex justify-content-center m-4">
                                                     <button onClick={this.buttonLoginAndEmailHandler} type="button" className="btn btn-lg btn-primary">Coxpaнить</button>

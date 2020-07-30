@@ -52,11 +52,12 @@ class Select extends React.Component {
         if(e.target.value === "true"){
             this.setState({areaId:'',cities: [],cityId: ''})
         }else{
-        this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
-        this.setState({ cityId: '' })
+        // this.searcherIdForOptions(e.target.value, "areaName", "areaId", this.state.areas)
+        this.setState({ areaId: e.target.value, cityId: ''  })
+        // this.setState({ cityId: '' })
         }
         this.state.areas.forEach(element => {
-            if (element.areaName === e.target.value) {
+            if (element.id === e.target.value) {
                 this.setState({
                     cities: element.cities
                 })
@@ -68,17 +69,18 @@ class Select extends React.Component {
         if(e.target.value === "true"){
             this.setState({cityId:''})
         }else{
-            this.searcherIdForOptions(e.target.value, "cityName", "cityId", this.state.cities)
+            this.setState({ cityId: e.target.value  })
+            // this.searcherIdForOptions(e.target.value, "cityName", "cityId", this.state.cities)
         }
     }
 
-    searcherIdForOptions(value, key, fieldNameInState, valueParentElement) {
-        valueParentElement.forEach(i => {
-            if (i[key] === value) {
-                this.setState({ [fieldNameInState]: i.id })
-            }
-        })
-    }
+    // searcherIdForOptions(value, key, fieldNameInState, valueParentElement) {
+    //     valueParentElement.forEach(i => {
+    //         if (i[key] === value) {
+    //             this.setState({ [fieldNameInState]: i.id })
+    //         }
+    //     })
+    // }
 
     searchRequestHandler = () => {
         this.setState({
@@ -154,18 +156,18 @@ class Select extends React.Component {
                         <div className="col">
                             <div className="input-group input-group-lg ">
                                 <div className="input-group input-group-lg col mb-lg-0 col-lg-5 mb-md-3 col-md-12 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
-                                <input type="text" onChange={this.requestTextHandler} className="form-control rounded-0" placeholder="Введите текст запроса" aria-label="Recipient's username" aria-describedby="button-addon2" />
+                                <input type="text" value={this.state.requestText} onChange={this.requestTextHandler} className="form-control rounded-0" placeholder="Введите текст запроса" aria-label="Recipient's username" aria-describedby="button-addon2" />
                                 </div>
                                 <div className="input-group input-group-lg col mb-lg-0 col-lg-3 mb-md-3 col-md-5 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
                                 <select onChange={this.requestAreaHandler.bind(this)} className="form-control rounded-0" id="inputSelectArea">
                                     <option value>Выберите область</option>
-                                    {this.props.areas?this.props.areas.map(a => <option id={a.id} key={a.id}>{a.areaName}</option>):null}
+                                    {this.props.areas?this.props.areas.map(a => <option key={a.id} value={a.id}>{a.areaName}</option>):null}
                                 </select>
                                 </div>
                                 <div className="input-group input-group-lg col mb-lg-0 col-lg-3 mb-md-3 col-md-5 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">
                                 <select onChange={this.requestCityHandler.bind(this)} className="form-control rounded-0" id="inputSelectCity">
                                     <option value>Выберите город</option>
-                                    {this.state.cities?this.state.cities.map(a => <option key={a.id}>{a.cityName}</option>):null}
+                                    {this.state.cities?this.state.cities.map(a => <option key={a.id} value={a.id}>{a.cityName}</option>):null}
                                 </select>
                                 </div>
                                 <div className="input-group-append col mb-lg-0 col-lg-1 mb-md-3 col-md-2 mb-sm-3 col-sm-12 mb-3 col-12 m-0 p-0">

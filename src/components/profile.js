@@ -18,7 +18,7 @@ class Profile extends React.Component {
     componentDidMount() {
         this.props.onGetUserInfo({ id: this.props.userId, token: this.props.token })
             .then(() => this.props.avatar ? this.props.avatar.forEach(a => a.isMain ? this.setState({ avatar: a.photoLink }) : null) : null)
-            .then(() => this.setState({ userName: this.props.user.userName }))
+            .then(() => this.props.user ? this.setState({ userName: this.props.user.userName }):null)
     }
 
     componentDidUpdate(prevProps) {
@@ -29,7 +29,6 @@ class Profile extends React.Component {
             } else if (!this.props.updatedUserPhoto[0]) {
                 this.setState({ avatar: "" })
             }
-            //    console.log("+++++++++++",this.props.updatedUserPhoto.map(a => a.isMain ?( this.setState({ avatar: a.photoLink }),true) : null))    
         } else if (prevProps.userName !== this.props.userName) {
             this.setState({ userName: this.props.userName })
         }

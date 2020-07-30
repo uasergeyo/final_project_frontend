@@ -34,7 +34,7 @@ class EditAnnouncement extends React.Component {
 
     componentDidMount() {
         this.props.onAnnouncementForEdit({ id: this.props.match.params.id, token: this.props.token })
-            .then(() => this.setState({
+            .then(() =>this.props.announcement ? this.setState({
                 announcementHeader: this.props.announcement.announcementHeader,
                 announcementPrice: this.props.announcement.announcementPrice,
                 announcementText: this.props.announcement.announcementText,
@@ -48,7 +48,9 @@ class EditAnnouncement extends React.Component {
                 subCategoryName: this.props.announcement.subcategory.subCategoryName,
                 categoryId: this.props.announcement.category.id,
                 subCategoryId: this.props.announcement.subcategory.id,
-            }))
+                subCategories: this.props.announcement.category.id ? this.props.categories.filter(a => a.id === this.props.announcement.category.id)[0].subcategories : []
+            }):null)
+            
     }
 
     componentDidUpdate(prevProps) {
@@ -79,7 +81,7 @@ class EditAnnouncement extends React.Component {
             this.setState({
                 headerInfo: `Длина заголовка-${e.target.value.length} максимальная длина 100 символов.`,
                 headerWarning: true,
-                announcementHeader: '',
+                announcementHeader: e.target.value,
             })
         } else {
             this.setState({
@@ -102,7 +104,7 @@ class EditAnnouncement extends React.Component {
             this.setState({
                 descriptionInfo: `Длина заголовка-${e.target.value.length} максимальная длина 100 символов.`,
                 descriptionWarning: true,
-                announcementText: '',
+                announcementText: e.target.value,
             })
         } else {
             this.setState({
@@ -114,20 +116,19 @@ class EditAnnouncement extends React.Component {
     }
 
     selectCategoryHandler = (e) => {
-        this.searcherIdForOptions(e.target.value, "categoryName", "categoryId", this.state.categories);
-        this.setState({ subCategoryId: '', subCategoryName: 'Выберите подкатегорию' })
+        this.setState({categoryId:e.target.value, subCategoryId: '', subCategoryName: 'Выберите подкатегорию' })
         this.state.categories.forEach(i => {
-            if (i.categoryName === e.target.value) {
+            if (i.id === e.target.value) {
                 this.setState({ subCategories: i.subcategories })
             }
         })
     }
 
     selectSubCategoryHandler = (e) => {
-        if (e.target.value === "true") {
+        if (e.target.value === "") {
             this.setState({ subCategoryId: '' })
         } else {
-            this.searcherIdForOptions(e.target.value, "subCategoryName", "subCategoryId", this.state.subCategories);
+            this.setState({ subCategoryId: e.target.value})
         }
     }
 
@@ -154,7 +155,7 @@ class EditAnnouncement extends React.Component {
     }
 
     selectCurrencyHandler = (e) => {
-        this.searcherIdForOptions(e.target.value, "currencySymbol", "currencyId", this.state.currencies);
+        this.setState({currencyId:e.target.value})
     }
 
     inputPhotoHandler = async (e) => {
@@ -165,21 +166,12 @@ class EditAnnouncement extends React.Component {
         this.props.onAddPhoto({
             token: this.props.token,
             announcementId: this.props.announcement.id,
-            photoLink: `http://localhost:4000/announcements${photoName}`
+            photoLink: `/announcements${photoName}`
         })
     }
 
     checkHasDeliveryHandler = (e) => {
-        this.setState({ hasDelivery: e.target.checked })
-    }
-
-
-    searcherIdForOptions(value, key, fieldNameInState, valueParentElement) {
-        valueParentElement.forEach(i => {
-            if (i[key] === value) {
-                this.setState({ [fieldNameInState]: i.id })
-            }
-        })
+        this.setState({ hasDelivery: !this.state.hasDelivery })
     }
 
     sendAnnouncementHandler = () => {
@@ -201,16 +193,15 @@ class EditAnnouncement extends React.Component {
             obj.body.announcementText &&
             obj.body.announcementPrice >= 0 &&
             obj.body.categoryId &&
-            obj.body.subCategoryId) {
+            obj.body.subCategoryId&&
+            !this.state.descriptionWarning&&
+            !this.state.headerWarning
+            ) {
             this.props.onEditAnnouncement(obj)
         } else {
             this.setState({ announcementRejectionCause: "Все поля со звездочкой должны быть заполнены." })
         }
 
-    }
-
-    changeVisibilityHandler = () => {
-        this.setState({ isVisible: false })
     }
 
     render() {
@@ -223,7 +214,6 @@ class EditAnnouncement extends React.Component {
                                 <label htmlFor="exampleInputEmail1" className="necessaryInput">Заголовок</label>
                                 <p className={this.state.headerWarning ? "inputWarning" : "inputSucess "}>{this.state.headerInfo}</p>
                                 <input onChange={this.requestHeaderHandler.bind(this)} value={this.state.announcementHeader} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                                {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
                             </div>
                             <div className="form-group pl-3 pr-3">
                                 <label htmlFor="exampleFormControlTextarea1" className="necessaryInput">Подробное описание объявления</label>
@@ -234,16 +224,15 @@ class EditAnnouncement extends React.Component {
                                 <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="selectCategory" className="necessaryInput">Категория</label>
                                     <select onChange={this.selectCategoryHandler.bind(this)} className="form-control" id="selectCategory">
-                                        <option value>{this.state.categoryName}</option>
-                                        {this.state.categories ? this.state.categories.map(a => a.categoryName !== this.state.categoryName ? <option id={a.id} key={a.id}>{a.categoryName}</option> : null) : null}
-
+                                        <option value={this.state.categoryId}>{this.state.categoryName}</option>
+                                        {this.state.categories ? this.state.categories.map(a => a.categoryName !== this.state.categoryName ? <option key={a.id} value={a.id}>{a.categoryName}</option> : null) : null}
                                     </select>
                                 </div>
                                 <div className="col col-lg-6 col-sm-12 col-12">
                                     <label htmlFor="selectSubcategory" className="necessaryInput">Подкатегория</label>
                                     <select onChange={this.selectSubCategoryHandler.bind(this)} className="form-control" id="selectSubcategory">
-                                        <option value>{this.state.subCategoryName}</option>
-                                        {this.state.subCategories ? this.state.subCategories.map(a => a.subCategoryName !== this.state.subCategoryName ? <option key={a.id}>{a.subCategoryName}</option> : null) : null}
+                                        <option value={this.state.subCategoryId}>{this.state.subCategoryName}</option>
+                                        {this.state.subCategories ? this.state.subCategories.map(a => a.subCategoryName !== this.state.subCategoryName ? <option key={a.id} value={a.id}>{a.subCategoryName}</option> : null) : null}
 
                                     </select>
                                 </div>
@@ -253,8 +242,8 @@ class EditAnnouncement extends React.Component {
                                 <div className="col col-lg-3 col-sm-12 col-12">
                                     <label htmlFor="inputSelectCurrency" id="inputMaxPrice">Bалютa</label>
                                     <select className="form-control" onChange={this.selectCurrencyHandler.bind(this)} id="inputSelectCurrency">
-                                        <option key={this.state.currencyId} value>{this.state.currencySymbol}</option>
-                                        {this.state.currencies ? this.state.currencies.map(a => a.currencySymbol !== this.state.currencySymbol ? <option key={a.id}>{a.currencySymbol}</option> : null) : null}
+                                        <option key={this.state.currencyId} value={this.state.currencyId}>{this.state.currencySymbol}</option>
+                                        {this.state.currencies ? this.state.currencies.map(a => a.currencySymbol !== this.state.currencySymbol ? <option key={a.id} value={a.id}>{a.currencySymbol}</option> : null) : null}
                                     </select>
                                 </div>
                                 <div className="col col-lg-3 col-sm-12 col-12">
@@ -277,7 +266,7 @@ class EditAnnouncement extends React.Component {
                             this.state.announcementRejectionCause ? <p className="inputWarning">{this.state.announcementRejectionCause}</p> : null
                         }
                     </div>
-                    <div className="pl-3 pr-3">
+                    <div className="p-3">
                         <button type="button" onClick={this.sendAnnouncementHandler} className="btn btn-primary btn-lg btn-block">Сохранить объявление</button>
                     </div>
                 </div>

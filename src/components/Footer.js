@@ -11,11 +11,11 @@ class Footer extends React.Component {
                 <div className="row">
                 <div className="d-flex flex-column align-items-center col col-lg-6 col-md-6 col-sm-12 col-12">
                         <div className="d-flex flex-column align-items-start">
-                            <a href="/l_w" className="text-decoration-none">Самые популярные запросы</a>
-                            <a href="/l_w" className="text-decoration-none">Карта сайта</a>
-                            <a href="/l_w" className="text-decoration-none">Карта Украины</a>
-                            <a href="/l_w" className="text-decoration-none">Как продавать и покупать ?</a>
-                            <a href="/l_w" className="text-decoration-none">Помощь обратная связь</a>
+                            <a href="/most-popular-requests" className="text-decoration-none">Самые популярные запросы</a>
+                            <a href="/site-map" className="text-decoration-none">Карта сайта</a>
+                            <a href="/ukraine-map" className="text-decoration-none">Карта Украины</a>
+                            <a href="/how-to-buy-and-sell" className="text-decoration-none">Как продавать и покупать ?</a>
+                            <a href="/help" className="text-decoration-none">Помощь обратная связь</a>
                         </div>
                     </div>
                     <div className="d-flex flex-column align-items-center col col-lg-6 col-md-6 col-sm-12 col-12">

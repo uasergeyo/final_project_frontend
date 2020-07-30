@@ -13,7 +13,7 @@ function mapStateToProps(component) {
 				};
 			}
 		}
-		case "Registration":{
+		case "Registration": {
 			return function (state){
 				return{
 					registrationResponse:d`${state}.login.jwt_token`,
@@ -160,29 +160,29 @@ function mapStateToProps(component) {
 		case "Settings" :{
 			return function(state){
 				return {
-					userId: d`${state}.login.userData.id`,
-					token: d`${state}.login.jwt_token`,
+					userId:   d`${state}.login.userData.id`,
+					token:    d`${state}.login.jwt_token`,
 					userInfo: d`${state}.promiseReducer.getUserInfo.payload.data.getUser`,
-					photo: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.photos`,
+					photo:    d`${state}.promiseReducer.getUserInfo.payload.data.getUser.photos`,
 					areas:    d`${state}promiseReducer.getUserInfo.payload.data.getAreas`,
 					cityId:   d`${state}.promiseReducer.getUserInfo.payload.data.getUser.city.id`,
 					areaId:   d`${state}.promiseReducer.getUserInfo.payload.data.getUser.area.id`,
 					phones:   d`${state}.promiseReducer.getUserInfo.payload.data.getUser.phones`,
 					phone:    d`${state}.promiseReducer.addPhoneNumber.payload.data.createPhone`,
 					avatar:   d`${state}.promiseReducer.addAvatar.payload.data.createPhoto.photoLink`,
-					addPhoneNumbers: d`${state}.promiseReducer.addPhoneNumber.payload.data.createPhone` ,
+					addPhoneNumbers:    d`${state}.promiseReducer.addPhoneNumber.payload.data.createPhone` ,
 					removePhoneNumbers: d`${state}.promiseReducer.removedPhone.payload.data.removePhone`,
 					responseRemoveUser: d`${state}.promiseReducer.removeUser.payload.data.removeUser`,
-					userName: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.userName`,
-					areaName: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.area.areaName`,
-					cityName: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.city.cityName`,
-					updatedUserPhoto: d`${state}.promiseReducer.getUserPhoto.payload.data.getUserPhotos`,
-					deletedPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
-					addPhoto:d`${state}.promiseReducer.createUserPhoto.payload.data.createPhoto.id`,
-					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`,
+					userName:           d`${state}.promiseReducer.getUserInfo.payload.data.getUser.userName`,
+					areaName:           d`${state}.promiseReducer.getUserInfo.payload.data.getUser.area.areaName`,
+					cityName:           d`${state}.promiseReducer.getUserInfo.payload.data.getUser.city.cityName`,
+					updatedUserPhoto:   d`${state}.promiseReducer.getUserPhoto.payload.data.getUserPhotos`,
+					deletedPhoto:       d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
+					addPhoto:           d`${state}.promiseReducer.createUserPhoto.payload.data.createPhoto.id`,
+					setMainPhoto:       d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`,
 					responseOnUpdateUserNameAndLocation:d`${state}.promiseReducer.updateUserNameAndCity.payload.data.updateUser`,
-					responseOnPassAndEmailChange:d`${state}.promiseReducer.updateUserLoginAndPassword.payload.data.updateUser.id`,
-					responseOnPassAndEmailError:d`${state}.promiseReducer.updateUserLoginAndPassword.payload.errors`,
+					responseOnPassAndEmailChange:       d`${state}.promiseReducer.updateUserLoginAndPassword.payload.data.updateUser.id`,
+					responseOnPassAndEmailError:        d`${state}.promiseReducer.updateUserLoginAndPassword.payload.errors`,
 					
 
 				}

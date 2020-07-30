@@ -64,7 +64,7 @@ class AnnouncementCard extends React.Component {
                         {
                             <img src={this.state.avatar ?
                                 this.state.avatar : (this.props.announcement.photo && this.props.announcement.photo[0]
-                                    && this.props.announcement.photo[0].photoLink) || "http://localhost:4000/content/info/notFound.jpg"
+                                    && this.props.announcement.photo[0].photoLink) || "/content/info/notFound.jpg"
                             } onClick={this.fullAnnouncementHandler}
                                 className="w-100 cursor-pointer card-img-top cardImg img-fluid" alt="..." />
                         }
@@ -95,15 +95,16 @@ class AnnouncementCard extends React.Component {
                             : null}
                         <div className="d-flex justify-content-between">
                             <span className="d-flex flex-column align-items-center">
-                                <p className="mb-0 cityAndDate">{new Date(this.props.announcement.createdAt).getDay() + 1}-
-                                {new Date(this.props.announcement.createdAt).getMonth() + 1}-
-                                {new Date(this.props.announcement.createdAt).getFullYear()}</p>
+                                <p className="mb-0 cityAndDate">
+                                {new Date(+this.props.announcement.createdAt).getDate()}-
+                                {new Date(+this.props.announcement.createdAt).getMonth() + 1}-
+                                {new Date(+this.props.announcement.createdAt).getFullYear()}</p>
                             </span>
                             <OverlayTrigger
                                 placement="top"
                                 delay={{ show: 250, hide: 400 }}
                                 overlay={<Tooltip>{this.props.token ? (this.state.isLike ? "Удалить из избранных" : "В избранные") : "Необходима авторизация"}</Tooltip>}>
-                                <img className="cursor-pointer" src={this.state.isLike ? "http://localhost:4000/content/likers/like.png" : "http://localhost:4000/content/likers/not-like.png"} onClick={this.createLikeHandler.bind(this)} alt="..." />
+                                <img className="cursor-pointer" src={this.state.isLike ? "/content/likers/like.png" : "/content/likers/not-like.png"} onClick={this.createLikeHandler.bind(this)} alt="..." />
                             </OverlayTrigger>
                         </div>
                     </div>

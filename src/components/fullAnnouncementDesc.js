@@ -19,20 +19,20 @@ class FullAnnouncement extends React.Component {
     render() {
         if (this.props.announcement) {
             return (
-                <div className="container p-5">
+                <div className="container p-lg-5 p-md-3 p-sm-1 p-1">
                     <div className="row">
-                        <div className="col col-lg-8">
+                        <div className="col col-lg-8 col-md-12 col-sm-12 col-12">
                             <div className="card p-5">
                                 <div className="mb-3 m-auto">
                                     {this.props.photo.length ? <Slider images={this.props.announcement.photo.map(a => a.photoLink)} /> :
-                                                 <img className="img-fluid" src="http://localhost:4000/content/info/photo-default-slider.png" alt="..." />}
+                                                 <img className="img-fluid" src="/content/info/photo-default-slider.png" alt="..." />}
                                 </div>
                                 <div className="card-body">
                                     <h2>{this.props.announcement.announcementHeader}</h2>
                                     <h4>{this.props.announcement.announcementPrice ? this.props.announcement.announcementPrice : "Договорная"}
                                         {this.props.announcement.announcementPrice ? this.props.announcement.currency.currencySymbol : ''}</h4>
                                     <p className="text-break">{this.props.announcement.announcementText}</p>
-                                    <span className="d-flex justify-content-between">
+                                    <span className="d-flex justify-content-between flex-lg-row flex-md-row flex-sm-column flex-column">
                                         <h5>{this.props.area} {this.props.city}</h5>
                                         <p className="bg-warning pl-2 pr-2 rounded">{this.props.announcement.hasDelivery ? "Возможна доставка почтой" : "Без доставки почтой"}</p>
                                     </span>
@@ -44,8 +44,9 @@ class FullAnnouncement extends React.Component {
                         <div className="col col-lg-4">
                             <div className="card pt-5">
                                 <img className="w-50 rounded-circle m-auto" src={this.state.avatar ?
-                                                this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} alt={this.state.avatar ?
-                                                this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} />
+                                                             this.state.avatar : "/content/info/without-photo.png"} 
+                                    alt={this.state.avatar ?
+                                                             this.state.avatar : "/content/info/without-photo.png"} />
                                 <div className="card-body">
                                     <div className="card-header">
                                         <h3>{this.props.userName}</h3>
