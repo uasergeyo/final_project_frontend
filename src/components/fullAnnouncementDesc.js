@@ -43,7 +43,7 @@ class FullAnnouncement extends React.Component {
                         </div>
                         <div className="col col-lg-4">
                             <div className="card pt-5">
-                                <img className="w-50 rounded-circle m-auto" src={this.state.avatar ?
+                                <img className="rounded-circle img-fluid objectFit border border-primary p-1 mx-auto" style={{ width: "150px", height: "150px" }} src={this.state.avatar ?
                                                              this.state.avatar : "/content/info/without-photo.png"} 
                                     alt={this.state.avatar ?
                                                              this.state.avatar : "/content/info/without-photo.png"} />

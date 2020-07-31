@@ -18,6 +18,26 @@ class Header extends React.Component {
         this.props.onRedirect('/create_announcement');
     }
 
+    onClickLogoHandler = () => {
+        this.props.onSearch({
+            limit: 16,
+            offset: 0,
+            categoryId: '',
+            subCategoryId: '',
+            priceFrom: 0,
+            priceTo: 0,
+            currencyId: '',
+            sort: '',
+            hasDelivery: false,
+            hasPhoto: false,
+            findEverywhere: false,
+            requestText: '',
+            areaName: '',
+            areaId: '',
+            cityId: '',
+        })
+    }
+
     render() {
         return (
             <header className="bg-primary">
@@ -25,7 +45,7 @@ class Header extends React.Component {
                     <div className="row">
                         <div className="col">
                             <nav className="navbar navbar-expand-lg navbar-light bg-primary pl-0 pr-0">
-                                <NavLink to="/" className="mx-auto" style={{ width: "60px", display: "block" }}>
+                                <NavLink to="/" onClick={this.onClickLogoHandler} className="mx-auto" style={{ width: "60px", display: "block" }}>
                                     <img src="/images/logo.png" alt="logo" width="100" />
                                 </NavLink>
                                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">

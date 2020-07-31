@@ -6,7 +6,6 @@ import { actionLogin,
 		 actionSearch,
 		 actionGetSearchParams,
 		 actionCreateAnnouncement,
-		 actionAddPhoto,
 		 actionFindFavourite,
 		 actionCreateLike,
 		 actionFindOneAnnouncement,
@@ -49,25 +48,24 @@ function mapDispatchToProps(component) {
 		};
 		case "Header": return function (dispatch){
 			return {
-				onRedirect: bindActionCreators(wasRedirectedFrom,dispatch)
+				onRedirect: bindActionCreators(wasRedirectedFrom,dispatch),
+				onSearch:bindActionCreators(actionSearch,dispatch),
 			};
 		};
+		
 		case "Registration":return function (dispatch){
 			return {
 				onRegister: bindActionCreators(actionRegister, dispatch)
 			}
 		};
+
 		case "Select":return function (dispatch){
 			return {
 				onSearch:bindActionCreators(actionSearch,dispatch),
 				onAnnouncementParams:bindActionCreators(actionGetSearchParams,dispatch),
 			}
 		};
-		// case "Main_page": return function (dispatch){
-		// 	return {
-		// 		onSearch:bindActionCreators(actionSearch,dispatch),
-		// 	}
-		// };
+		
 		case "AnnouncementsField": return function (dispatch){
 			return {
 				onSearch:bindActionCreators(actionSearch,dispatch),
@@ -148,7 +146,14 @@ function mapDispatchToProps(component) {
 				onGetFullCategories:bindActionCreators(actionGetFullCategories,dispatch),
 				onSearch:bindActionCreators(actionSearch,dispatch),
 			}
+		};
+
+		case "Footer": return function (dispatch){
+			return{
+				onSearch:bindActionCreators(actionSearch,dispatch),
+			}
 		}
+
 		
 		default: return undefined;
 	}

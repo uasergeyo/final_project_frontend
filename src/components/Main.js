@@ -1,7 +1,6 @@
 import React from 'react'
 import MAIN_PAGE_W from './wrappers/main_page_w'
 import {PrivateRoute} from '../helpers'
-// import helpers from '../helpers'
 import REGISTRATON_W from './wrappers/registration_w'
 import { Route, Switch} from 'react-router-dom'
 import PROFILE_W from './wrappers/profile_w';

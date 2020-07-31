@@ -2,10 +2,31 @@ import React from 'react';
 import { NavLink } from 'react-router-dom'
 
 class Footer extends React.Component {
+
+    onClickLogoHandler = () => {
+        this.props.onSearch({
+            limit: 16,
+            offset: 0,
+            categoryId: '',
+            subCategoryId: '',
+            priceFrom: 0,
+            priceTo: 0,
+            currencyId: '',
+            sort: '',
+            hasDelivery: false,
+            hasPhoto: false,
+            findEverywhere: false,
+            requestText: '',
+            areaName: '',
+            areaId: '',
+            cityId: '',
+        })
+    }
+
     render() {
         return (
             <div className="container mb-5">
-                <NavLink to="/" className="mx-auto" style={{ width: "100px", display: "block" }}>
+                <NavLink to="/" onClick={this.onClickLogoHandler} className="mx-auto" style={{ width: "100px", display: "block" }}>
                     <img className="mb-4" src="/images/logo.png" alt="" width="100" />
                 </NavLink>
                 <div className="row">

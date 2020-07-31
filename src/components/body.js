@@ -1,7 +1,7 @@
 import React from 'react';
 import HEADER_W from './wrappers/header_w';
 import MAIN_W from './wrappers/main_w';
-import Footer from './Footer';
+import FOOTER_W from './wrappers/footer_w';
 
 
 
@@ -13,7 +13,7 @@ class Body extends React.Component {
             <div>
                 <HEADER_W history={this.props.history} />
                 <MAIN_W />
-                <Footer />
+                <FOOTER_W history={this.props.history} />
             </div>
 
         )

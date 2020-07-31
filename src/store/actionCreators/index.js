@@ -6,7 +6,6 @@ import {
     actionPromiseSearch,
     actionPromiseParamsForAnnouncements,
     actionPromiseCreateAnnouncement,
-    actionPromiseAddPhoto,
     actionPromiseFindFavourite,
     actionPromiseCreateLike,
     actionPromiseFindOneAnnouncement,
@@ -46,7 +45,6 @@ export {
     actionSearch,
     actionGetSearchParams,
     actionCreateAnnouncement,
-    actionAddPhoto,
     actionFindFavourite,
     actionCreateLike,
     actionFindOneAnnouncement,
@@ -121,12 +119,6 @@ function actionGetSearchParams() {
 function actionCreateAnnouncement(data) {
     return async dispatch => {
         return await dispatch(actionPromiseCreateAnnouncement(data))
-    }
-}
-
-function actionAddPhoto(data) {
-    return async dispatch => {
-        return await dispatch(actionPromiseAddPhoto(data))
     }
 }
 
@@ -262,8 +254,6 @@ function actionGetFullCategories(){
 }
 
 function actionLogout() {
-    // state.promiseReducer.jwt_token
-    // localStorage.removeItem('jwt_token')
     return {
         type: LOGOUT,
         jwt_token: null

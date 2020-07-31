@@ -150,6 +150,8 @@ a{
 
 .objectFit{
   object-fit: cover;
+  /* object-fit: scale-down;
+  object-fit: fill; */
 
 }
 

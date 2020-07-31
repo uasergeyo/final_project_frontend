@@ -2,27 +2,25 @@ import { d } from '../helpers'
 
 function mapStateToProps(component) {
 	switch (component) {
-		case "LogIn": {
+		case "LogIn": 
 			return function (state) {
 				return {
 					token: d`${state}.login.jwt_token`,
 					logInErr: d`${state}.promiseReducer.login.payload.errors`,
-					user: state.login.userData,
-					animation: state.login.pending,
-					previousURL: state.redirectedFromLink.redirectedFrom 
-				};
+					user: d`${state}.login.userData`,
+					animation: `${state}.login.pending`,
+					previousURL: d`${state}.redirectedFromLink.redirectedFrom`,
 			}
 		}
-		case "Registration": {
+		case "Registration": 
 			return function (state){
 				return{
 					registrationResponse:d`${state}.login.jwt_token`,
 					badResponse:d`${state}.promiseReducer.register.payload.errors`,
-				}
 			}
 		}
 
-		case "Profile": {
+		case "Profile": 
 			return function (state) {
 				return {                                                              
 					avatar: d`${state}.promiseReducer.getUserInfo.payload.data.getUser.photos`,
@@ -31,45 +29,33 @@ function mapStateToProps(component) {
 					user: d`${state}.promiseReducer.getUserInfo.payload.data.getUser`,
 					userName: d`${state}.promiseReducer.updateUserNameAndCity.payload.data.updateUser.userName`,
 					updatedUserPhoto: d`${state}.promiseReducer.getUserPhoto.payload.data.getUserPhotos`,					
-				};
 			}
 		};
-		case "Main": {
+		case "Main": 
 			return function (state) {
 				return {
 					token: d`${state}.login.jwt_token`,
-					user: state.login.userData,
-					animation: state.login.pending,
-					previousURL: state.redirectedFromLink.redirectedFrom
+					user: d`${state}.login.userData`,
+					animation: `${state}.login.pending`,
+					previousURL: d`${state}.redirectedFromLink.redirectedFrom`,
 				};
-			}
 		};
-		case "Header": {
+		case "Header": 
 			return function (state) {
 				return {
-					link: state.redirectedFromLink.redirectedFrom
-				}
+					link: d`${state}.redirectedFromLink.redirectedFrom`,
 			}
 		};
 
-		case "Select": {
+		case "Select": 
 			return function (state) {
 				return {
 					areas: d`${state}.promiseReducer.params_for_announcements.payload.data.getAreas`,
-				}
+					requestData:d`${state}.passRequestData.requestData`,
 			}
 		};
 
-		// case "Main_page": {
-		// 	return function (state) {
-		// 		return {
-		// 			announcements: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.rows`,
-		// 			count: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.count`,
-		// 		}
-		// 	}
-		// };
-
-		case "AnnouncementsField": {
+		case "AnnouncementsField": 
 			return function (state) {
 				return {
 					requestData:d`${state}.passRequestData.requestData`,
@@ -77,13 +63,11 @@ function mapStateToProps(component) {
 					count: d`${state}.promiseReducer.searchRequest.payload.data.searchAnnouncements.count`,
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
-					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`,
-
-				}
+					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`				
 			}
 		};
 
-		case "CreateAnnouncement": {
+		case "CreateAnnouncement": 
 			return function (state) {
 				return {
 					areas: d`${state}.promiseReducer.params_for_announcements.payload.data.getAreas`,
@@ -93,42 +77,38 @@ function mapStateToProps(component) {
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					report: d`${state}.promiseReducer.createAnnouncement.payload.data.createAnnouncement.id`,
-				}
 			}
 		};
-		case "Favourite": {
+		case "Favourite": 
 			return function (state) {
 				return {
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}.promiseReducer.findFavourite.payload.data.getUser.favourite`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
-				}
 			}
 		};
 
-		case "SearchParams": {
+		case "SearchParams": 
 			return function (state) {
 				return {
 					categories: d`${state}.promiseReducer.params_for_announcements.payload.data.getCategories`,
 					currencies: d`${state}.promiseReducer.params_for_announcements.payload.data.getCurrencies`,
 					data: d`${state}.promiseReducer.params_for_announcements.payload.data`,
-				}
 			}
 		};
 
-		case "AnnouncementCard": {
+		case "AnnouncementCard": 
 			return function (state) {
 				return {
 					token: d`${state}.login.jwt_token`,
 					responseCreateLike: d`${state}.promiseReducer.createLike.payload.data.createLike.id`,
 					userId: d`${state}.login.userData.id`,
 					responseRemoveAnnouncement: d`${state}.promiseReducer.removeAnnouncement.payload.data.editAnnouncement.id`,
-				}
 			}
 		}
 
-		case "FullAnnouncement": {
+		case "FullAnnouncement": 
 			return function (state) {
 				return {
 					userId: d`${state}.login.userData.id`,
@@ -142,22 +122,20 @@ function mapStateToProps(component) {
 					photo: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.photo`,
 					uCity: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.city.cityName`,
 					uArea: d`${state}.promiseReducer.findOneAnnouncement.payload.data.getAnnouncement.user.area.areaName`,
-				}
 			}
 		};
 
-		case "OwnAnnouncements" :{
+		case "OwnAnnouncements" :
 			return function(state){
 				return {
 					userId: d`${state}.login.userData.id`,
 					token: d`${state}.login.jwt_token`,
 					announcements: d`${state}promiseReducer.findOwn.payload.data.getUser.announcements`,
 					favourite: d`${state}.promiseReducer.getLikes.payload.data.getUser.favourite`,
-				}
 			}
 		};
 
-		case "Settings" :{
+		case "Settings" :
 			return function(state){
 				return {
 					userId:   d`${state}.login.userData.id`,
@@ -184,12 +162,10 @@ function mapStateToProps(component) {
 					responseOnPassAndEmailChange:       d`${state}.promiseReducer.updateUserLoginAndPassword.payload.data.updateUser.id`,
 					responseOnPassAndEmailError:        d`${state}.promiseReducer.updateUserLoginAndPassword.payload.errors`,
 					
-
-				}
 			}
 		};
 
-		case "EditAnnouncement":{
+		case "EditAnnouncement":
 			return function(state){
 				return{
 					token: d`${state}.login.jwt_token`,
@@ -202,16 +178,13 @@ function mapStateToProps(component) {
 					isChangeInPhoto:d`${state}.promiseReducer.removePhoto.payload.data.removePhoto.id`,
 					newPhoto:d`${state}.promiseReducer.createAnnouncementPhoto.payload.data.createPhoto.id`,
 					setMainPhoto:d`${state}.promiseReducer.setMainPhoto.payload.data.setPhotoMain`,
-
-				}
 			}
 		};
 
-		case "Categories":{
+		case "Categories":
 			return function(state){
 				return{
 					fullCategories:d`${state}promiseReducer.categoriesFullDesc.payload.data.getCategories`
-				}
 			}
 		}
 		default: return undefined;

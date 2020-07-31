@@ -152,14 +152,14 @@ class CreateAnnouncement extends React.Component {
     inputPriceHandler = (e) => {
         if (e.target.value < 0) {
             this.setState({
-                price: '',
+                price: e.target.value,
                 priceInfo: "Цена не может быть отрицательной.",
                 priceWarning: true,
             })
-        } else if (e.target.value > 9999999) {
+        } else if (e.target.value > 9999999.99) {
             this.setState({
-                price: "",
-                priceInfo: "Максимальная цена - 9999999.",
+                price: e.target.value,
+                priceInfo: "Максимальная цена - 9999999.99",
                 priceWarning: true,
             })
         } else {
@@ -188,13 +188,16 @@ class CreateAnnouncement extends React.Component {
     checkHasDeliveryHandler = () => {
         this.setState({ hasDelivery: !this.state.hasDelivery })
     }
+    roundToTwo(num) {    
+        return +(Math.floor(num + "e+2")  + "e-2");
+    }
 
     sendAnnouncementHandler = () => {
         let obj = {
             body: {
                 announcementHeader: this.state.header,
                 announcementText: this.state.description,
-                announcementPrice: this.state.price,
+                announcementPrice: this.roundToTwo(this.state.price),
                 hasDelivery: this.state.hasDelivery,
                 userId: this.props.userId,
                 areaId: this.state.areaId,
@@ -215,7 +218,8 @@ class CreateAnnouncement extends React.Component {
             obj.body.categoryId &&
             obj.body.subCategoryId&&
             !this.state.descriptionWarning&&
-            !this.state.headerWarning
+            !this.state.headerWarning &&
+            !this.state.priceWarning
             ) {
             this.props.onCreateAnnouncement(obj)
                 .then(() => this.setState({

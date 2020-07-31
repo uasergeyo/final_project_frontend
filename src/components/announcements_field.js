@@ -15,7 +15,7 @@ class AnnouncementsField extends React.Component {
   }
 
   componentDidMount = () => {
-
+    
     if (this.props.userId) {
       this.props.onSearchLikes({ id: this.props.userId, token: this.props.token })
         .then(() => {
@@ -44,8 +44,8 @@ class AnnouncementsField extends React.Component {
     this.setState({ buttons: arr })
   }
 
-  paginationButtonHandler(e) {
-    this.props.onSearch({ ...this.props.requestData, limit: 16, offset: +e.target.name * 16 - 16 })
+  paginationButtonHandler(number) {
+    this.props.onSearch({ ...this.props.requestData, limit: 16, offset: +number * 16 - 16 })
   }
 
   render() {
@@ -54,7 +54,6 @@ class AnnouncementsField extends React.Component {
         <div className="bg-light mb-5 pt-5 pb-5">
           <div className="container mb-5 mx-auto">
             <div className="row ">
-            {/* <div className="row row-cols-1 row-cols-md-3 "> */}
               {this.props.announcements.length ? this.props.announcements.map(a => {
                 let identifier = a.id;
                 return <ANNOUNCEMENT_CARD_W history={this.props.history}
@@ -69,7 +68,7 @@ class AnnouncementsField extends React.Component {
           <Pagination className="w-100 d-flex justify-content-center">
             {
               this.state.buttons.map(a => {
-                return <Pagination.Item onClick={this.paginationButtonHandler.bind(this)} name={a} key={a}>{a}</Pagination.Item>
+                return <Pagination.Item onClick={this.paginationButtonHandler.bind(this,a)} key={a}>{a}</Pagination.Item>
               })
             }
           </Pagination>

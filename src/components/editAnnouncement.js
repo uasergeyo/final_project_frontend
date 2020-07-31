@@ -135,19 +135,19 @@ class EditAnnouncement extends React.Component {
     inputPriceHandler = (e) => {
         if (e.target.value < 0) {
             this.setState({
-                announcementPrice: '',
+                announcementPrice: e.target.value,
                 priceInfo: "Цена не может быть отрицательной.",
                 priceWarning: true,
             })
-        } else if (e.target.value > 9999999) {
+        } else if (e.target.value > 9999999.99) {
             this.setState({
-                price: "",
-                priceInfo: "Максимальная цена - 9999999.",
+                price: e.target.value,
+                priceInfo: "Максимальная цена - 9999999.99",
                 priceWarning: true,
             })
         } else {
             this.setState({
-                announcementPrice: +e.target.value,
+                announcementPrice: e.target.value,
                 priceInfo: "",
                 priceWarning: false,
             })
@@ -174,13 +174,17 @@ class EditAnnouncement extends React.Component {
         this.setState({ hasDelivery: !this.state.hasDelivery })
     }
 
+    roundToTwo(num) {    
+        return +(Math.floor(num + "e+2")  + "e-2");
+    }
+
     sendAnnouncementHandler = () => {
         let obj = {
             body: {
                 id: this.props.announcement.id,
                 announcementHeader: this.state.announcementHeader,
                 announcementText: this.state.announcementText,
-                announcementPrice: +this.state.announcementPrice,
+                announcementPrice: this.roundToTwo(+this.state.announcementPrice),
                 hasDelivery: this.state.hasDelivery,
                 userId: this.props.userId,
                 currencyId: this.state.currencyId,
@@ -195,7 +199,8 @@ class EditAnnouncement extends React.Component {
             obj.body.categoryId &&
             obj.body.subCategoryId&&
             !this.state.descriptionWarning&&
-            !this.state.headerWarning
+            !this.state.headerWarning &&
+            !this.state.priceWarning
             ) {
             this.props.onEditAnnouncement(obj)
         } else {

@@ -58,7 +58,7 @@ class Profile extends React.Component {
                             </div>
                             <NavLink className="text-decoration-none d-flex flex-column justify-content-between" onClick={() => this.setState({ title: "Мои настройки" })} to="/profile/own_settings">
                                 <img className="rounded-circle img-fluid objectFit border border-primary p-1 mx-auto"
-                                    style={{ width: "100px", height: "100px" }} src={this.state.avatar ? this.state.avatar : "http://localhost:4000/content/info/without-photo.png"} alt="..." />
+                                    style={{ width: "100px", height: "100px" }} src={this.state.avatar ? this.state.avatar : "/content/info/without-photo.png"} alt="..." />
                                 <p className="text-center  m-0 text-primary font-weight-bolder">{this.state.userName ? this.state.userName : ""}</p>
                             </NavLink>
                         </div>

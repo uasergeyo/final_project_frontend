@@ -1,7 +1,6 @@
 import actionPromiseSearch from './promiseSearch'
 import actionPromiseParamsForAnnouncements from './promiseParamsForSearch'
 import actionPromiseCreateAnnouncement from './promiseCreateAnnouncement'
-import actionPromiseAddPhoto from './promiseAddPhoto'
 import actionPromiseFindFavourite from './actionPromiseFindFavourite'
 import actionPromiseCreateLike from './actionPromiseCreateLike'
 import actionPromiseFindOneAnnouncement from './actionPromiseFindOneAnnouncement'
@@ -32,7 +31,6 @@ export {
     actionPromiseSearch,
     actionPromiseParamsForAnnouncements,
     actionPromiseCreateAnnouncement,
-    actionPromiseAddPhoto,
     actionPromiseFindFavourite,
     actionPromiseCreateLike,
     actionPromiseFindOneAnnouncement,

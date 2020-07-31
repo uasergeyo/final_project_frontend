@@ -36,7 +36,6 @@ class SearchParams extends React.Component {
         }
     }
 
-
     selectCategoryHandler = (e) => {
         if (e.target.value === "true") {
             this.setState({ categoryId: '',subCategories: [], subCategoryId: '' },()=>this.props.updateCategory(this.state.categoryId))
@@ -94,8 +93,8 @@ class SearchParams extends React.Component {
                 <div className="input-group input-group-lg mt-3 ">
                     <div className="col pl-0 col-lg-3 col-md-6 col-sm-12 col-12 mb-3 mb-lg-0 mb-md-3 mb-sm-3 pr-lg-3 pr-md-3 pr-sm-0 pr-0">
                         <label htmlFor="inputSelectCategory">Категория</label>
-                        <select onChange={this.selectCategoryHandler.bind(this)} className="form-control" id="inputSelectCategory">
-                            <option value>Все</option>
+                        <select value={this.state.categoryId} onChange={this.selectCategoryHandler.bind(this)} className="form-control" id="inputSelectCategory">
+                            <option >Все</option>
                             {this.state.categories ? this.state.categories.map(a => <option key={a.id} value={a.id}>{a.categoryName}</option>) : null}
                         </select>
                     </div>
